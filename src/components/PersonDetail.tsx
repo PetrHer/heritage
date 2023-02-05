@@ -34,6 +34,7 @@ const PersonDetail = ({
       });
     }
     childrenDB.mutate(person.id);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [parents, person.mother_id, person.father_id]);
   const handleClick = (x: boolean) => {
     setParents(x);

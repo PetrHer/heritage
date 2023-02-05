@@ -10,7 +10,7 @@ const UpdateForm = () => {
     name: "",
     surname: "",
     birth_surname: "",
-    year_of_birth: "",
+    year_of_birth: 0,
     year_of_death: "",
     birth_place: "",
     father_id: 0,
@@ -22,7 +22,7 @@ const UpdateForm = () => {
     updating.mutate(personData);
   };
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.name == "mother_id" || event.target.name == "father_id") {
+    if (event.target.name == "mother_id" || event.target.name == "father_id" || event.target.name == "year_of_birth") {
       setPersonData({
         ...personData,
         [event.target.name]: Number(event.target.value),

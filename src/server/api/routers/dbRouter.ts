@@ -40,7 +40,7 @@ export const dbRouter = createTRPCRouter({
       z.object({
         name: z.string(),
         surname: z.string(),
-        year_of_birth: z.string().nullish(),
+        year_of_birth: z.number().nullish(),
         year_of_death: z.string().nullish(),
         birth_place: z.string().nullish(),
         birth_surname: z.string().nullish(),
@@ -73,7 +73,7 @@ export const dbRouter = createTRPCRouter({
         id: z.number(),
         name: z.string(),
         surname: z.string(),
-        year_of_birth: z.string().nullish(),
+        year_of_birth: z.number().nullish(),
         year_of_death: z.string().nullish(),
         birth_place: z.string().nullish(),
         birth_surname: z.string().nullish(),
@@ -96,7 +96,7 @@ export const dbRouter = createTRPCRouter({
     }),
     getALL:publicProcedure
       .mutation(async()=>{
-        const response = await prisma.person.findMany({select:{id:true,name:true,surname:true,year_of_birth:true}})
+        const response = await prisma.person.findMany({where:{year_of_birth:{gt:1960}},select:{id:true,name:true,surname:true,year_of_birth:true}})
         return response
       })
 });

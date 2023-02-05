@@ -10,8 +10,14 @@ const Home: NextPage = () => {
     sessionStorage.setItem("id", x.toString());
     window.location.href = "/person_id";
   };
+  const verification = api.authRouter.verify.useMutation()
+  useEffect(()=>{
+    const token = localStorage.getItem('token');
+    if(token){verification.mutate(token)}
+  },[])
   useEffect(() => {
     getData.mutate();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   if (getData.isSuccess) {
     getData.data.sort((a, b) => {

@@ -4,7 +4,7 @@ import styles from "../styles/InputForm.module.css";
 type Character = {
   name: "";
   surname: string;
-  year_of_birth: string;
+  year_of_birth: number;
   year_of_death: string;
   birth_place: string;
   birth_surname: string;
@@ -16,7 +16,7 @@ const InputForm = () => {
   const [personData, setPersonData] = useState<Character>({
     name: "",
     surname: "",
-    year_of_birth: "",
+    year_of_birth: 0,
     year_of_death: "",
     birth_place: "",
     birth_surname: "",
@@ -28,7 +28,7 @@ const InputForm = () => {
     creation.mutate(personData);
   };
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.name == "mother_id" || event.target.name == "father_id") {
+    if (event.target.name == "mother_id" || event.target.name == "father_id" || event.target.name == "year_of_birth") {
       setPersonData({
         ...personData,
         [event.target.name]: Number(event.target.value),
@@ -42,7 +42,7 @@ const InputForm = () => {
       setPersonData({
         name: "",
         surname: "",
-        year_of_birth: "",
+        year_of_birth: 0,
         year_of_death: "",
         birth_place: "",
         birth_surname: "",

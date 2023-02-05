@@ -1,11 +1,23 @@
-import { useRef } from "react";
 import DeleteForm from "../components/DeleteForm";
 import InputForm from "../components/InputForm";
 import NavMenu from "../components/NavMenu";
 import UpdateForm from "../components/UpdateForm";
 import Head from "next/head";
+import { api } from "../utils/api";
+import { useEffect } from "react";
 
-const records = () => {
+const Records = () => {
+  const verification = api.authRouter.verify.useMutation();
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      verification.mutate(token);
+    }
+  }, []);
+  if (!verification.isSuccess) {
+    alert("you need to be logged in");
+    window.location.href = "/login";
+  }
   return (
     <>
       <Head>
@@ -25,4 +37,4 @@ const records = () => {
   );
 };
 
-export default records;
+export default Records;

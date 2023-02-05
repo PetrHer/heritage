@@ -1,8 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
-import InputForm from "../components/InputForm";
+import React, { useEffect, useState } from "react";
 import NavMenu from "../components/NavMenu";
 import PersonDetail from "../components/PersonDetail";
-import UpdateForm from "../components/UpdateForm";
 import { api } from "../utils/api";
 import Head from "next/head";
 
@@ -20,6 +18,7 @@ const PersonId = () => {
   const response = api.dbRouter.getPerson.useMutation();
   useEffect(() => {
     if (id) response.mutate(id);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
   return (
     <>
