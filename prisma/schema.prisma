@@ -8,8 +8,13 @@ datasource db {
 }
 
 model Person {
-  id        Int    @id @default(autoincrement())
-  name      String @db.VarChar
-  mother_id Int?
-  father_id Int?
+  id            Int     @id @default(autoincrement())
+  name          String  @db.VarChar
+  mother_id     Int?
+  father_id     Int?
+  surname       String
+  birth_surname String?
+  year_of_birth String?
+  year_of_death String?
+  birth_place   String?
 }

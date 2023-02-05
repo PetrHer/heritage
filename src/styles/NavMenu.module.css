@@ -1,0 +1,11 @@
+.navigation{
+    width: 100vw;
+    height: fit-content;
+    padding: 5px;
+    background-color: bisque;
+    margin-bottom: 10px;
+}
+.linkItem{
+    margin-left: 10px;
+    margin-right: 10px;
+}

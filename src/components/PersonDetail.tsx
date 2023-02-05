@@ -41,11 +41,6 @@ const PersonDetail = ({
   const siblingVisibility = (x: boolean) => {
     setDisplaySiblings(x);
   };
-  const deletion = api.dbRouter.deletePerson.useMutation()
-  const deletePerson =() => {
-    deletion.mutate(person.id)
-    window.location.reload()
-  }
   return (
     <div className="parent">
       <div className={style.content}>
@@ -67,8 +62,10 @@ const PersonDetail = ({
           onClick={() => changeId(person.id)}
           className=" w-max bg-[url('/parchment.png')] bg-cover p-1 px-4"
         >
-          {person.id} {person.name}
-          <button onClick={deletePerson}>X</button>
+          id : {person.id} <br/> jmeno: {person.name} {person.surname} {"("}{person.birth_surname} {")"}<br/>{" "}
+          rok narozeni : {person.year_of_birth}{" "} <br />
+          misto narozeni : {person.birth_place} <br />
+          rok umrti : {person.year_of_death}
         </div>
         <div className="col-start-2 col-end-3 flex">
           {!displaySiblings &&
