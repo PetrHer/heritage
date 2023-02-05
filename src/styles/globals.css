@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.parent{
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    padding: 5px;
+}
+
+.button{
+    height: 20px;
+    width: 20px;
+    border-radius: 10px;
+  
+}
