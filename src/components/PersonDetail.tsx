@@ -20,13 +20,13 @@ const PersonDetail = ({
   const childrenDB = api.dbRouter.getChildren.useMutation();
 
   useEffect(() => {
-    if (!parents && person.mother_id) {
+    if (!parents && person.mother_id>0) {
       motherDB.mutate(person.mother_id);
     }
-    if (!parents && person.father_id) {
+    if (!parents && person.father_id>0) {
       fatherDB.mutate(person.father_id);
     }
-    if (!parents && person.father_id && person.mother_id) {
+    if (!parents && person.father_id>0 && person.mother_id>0) {
       siblings.mutate({
         motherId: person.mother_id,
         fatherId: person.father_id,
@@ -54,7 +54,7 @@ const PersonDetail = ({
                 onClick={() => changeId(e.id)}
                 className=" w-max bg-[url('/parchment.png')] bg-cover p-1 px-4"
               >
-                {e.name}
+                {e.name} {e.surname}
               </div>
             ))}
         </div>
@@ -89,7 +89,7 @@ const PersonDetail = ({
                 onClick={() => changeId(e.id)}
                 className=" w-max bg-[url('/parchment.png')] bg-cover p-1 px-4"
               >
-                {e.name}
+                {e.name}  {e.surname}
               </div>
             ))}
         </div>
@@ -99,7 +99,7 @@ const PersonDetail = ({
           -
         </button>
       )}
-      {!parents && (person.father_id || person.mother_id) && (
+      {!parents && (person.father_id>0 || person.mother_id>0) && (
         <button onClick={() => handleClick(true)} className="button">
           +
         </button>

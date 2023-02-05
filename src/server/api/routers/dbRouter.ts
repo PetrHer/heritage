@@ -40,22 +40,22 @@ export const dbRouter = createTRPCRouter({
       z.object({
         name: z.string(),
         surname: z.string(),
-        birthYear: z.string().nullish(),
-        deathYear: z.string().nullish(),
-        birthPlace: z.string().nullish(),
-        birthSurname: z.string().nullish(),
-        mother_id: z.number().nullish(),
-        father_id: z.number().nullish(),
+        year_of_birth: z.string().nullish(),
+        year_of_death: z.string().nullish(),
+        birth_place: z.string().nullish(),
+        birth_surname: z.string().nullish(),
+        mother_id: z.number(),
+        father_id: z.number(),
       })
     )
     .mutation(async (input) => {
       const response = await prisma.person.create({
         data: {
-          year_of_death: input.input.deathYear,
-          birth_place: input.input.birthPlace,
+          year_of_death: input.input.year_of_death,
+          birth_place: input.input.birth_place,
           surname: input.input.surname,
-          birth_surname: input.input.birthSurname,
-          year_of_birth: input.input.birthYear,
+          birth_surname: input.input.birth_surname,
+          year_of_birth: input.input.year_of_birth,
           name: input.input.name,
           mother_id: input.input.mother_id,
           father_id: input.input.father_id,
@@ -73,19 +73,19 @@ export const dbRouter = createTRPCRouter({
         id: z.number(),
         name: z.string(),
         surname: z.string(),
-        birthYear: z.string().nullish(),
-        deathYear: z.string().nullish(),
-        birthPlace: z.string().nullish(),
-        birthSurname: z.string().nullish(),
-        mother_id: z.number().nullish(),
-        father_id: z.number().nullish(),
+        year_of_birth: z.string().nullish(),
+        year_of_death: z.string().nullish(),
+        birth_place: z.string().nullish(),
+        birth_surname: z.string().nullish(),
+        mother_id: z.number(),
+        father_id: z.number(),
       })
     )
     .mutation(async (input) => {
       const data = {
-        birth_place: input.input.birthPlace,
-        birth_surname: input.input.birthSurname,
-        year_of_birth: input.input.birthYear,
+        birth_place: input.input.birth_place,
+        birth_surname: input.input.birth_surname,
+        year_of_birth: input.input.year_of_birth,
         mother_id: input.input.mother_id,
         father_id: input.input.father_id,
         name:input.input.name,

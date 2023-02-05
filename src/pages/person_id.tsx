@@ -4,6 +4,7 @@ import NavMenu from "../components/NavMenu";
 import PersonDetail from "../components/PersonDetail";
 import UpdateForm from "../components/UpdateForm";
 import { api } from "../utils/api";
+import Head from "next/head";
 
 const PersonId = () => {
   const [id, setId] = useState<number>();
@@ -21,16 +22,22 @@ const PersonId = () => {
     if (id) response.mutate(id);
   }, [id]);
   return (
-    <div>
-      <NavMenu />
-      {response.data && (
-        <PersonDetail
-          changeId={changeId}
-          person={response.data}
-          id={response.data.id}
-        />
-      )}
-    </div>
+    <>
+      <Head>
+        <title>Herytage</title>
+        <meta name="description" content="heritage of Petr Herynek" />
+      </Head>
+      <div>
+        <NavMenu />
+        {response.data && (
+          <PersonDetail
+            changeId={changeId}
+            person={response.data}
+            id={response.data.id}
+          />
+        )}
+      </div>
+    </>
   );
 };
 export default PersonId;

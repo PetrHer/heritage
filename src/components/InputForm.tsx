@@ -1,63 +1,129 @@
-import { useRef } from "react";
+import { useEffect, useState } from "react";
 import { api } from "../utils/api";
+import styles from "../styles/InputForm.module.css";
+type Character = {
+  name: "";
+  surname: string;
+  year_of_birth: string;
+  year_of_death: string;
+  birth_place: string;
+  birth_surname: string;
+  father_id: number;
+  mother_id: number;
+};
 
 const InputForm = () => {
-  const nameInput = useRef<HTMLInputElement>(null);
-  const surnameInput = useRef<HTMLInputElement>(null);
-  const birthSurnameInput = useRef<HTMLInputElement>(null);
-  const birthYearInput = useRef<HTMLInputElement>(null);
-  const deathYearInput = useRef<HTMLInputElement>(null);
-  const birthPlaceInput = useRef<HTMLInputElement>(null);
-  const fatherInput = useRef<HTMLInputElement>(null);
-  const motherInput = useRef<HTMLInputElement>(null);
+  const [personData, setPersonData] = useState<Character>({
+    name: "",
+    surname: "",
+    year_of_birth: "",
+    year_of_death: "",
+    birth_place: "",
+    birth_surname: "",
+    father_id: 0,
+    mother_id: 0,
+  });
   const creation = api.dbRouter.addPerson.useMutation();
   const putPersonInDB = () => {
-    if (nameInput.current?.value && surnameInput.current?.value)
-      creation.mutate({
-        birthSurname: birthSurnameInput.current?.value,
-        birthYear: birthYearInput.current?.value,
-        surname: surnameInput.current.value,
-        name: nameInput.current.value,
-        mother_id: Number(motherInput.current?.value),
-        father_id: Number(fatherInput.current?.value),
-        birthPlace:birthPlaceInput.current?.value,
-        deathYear:deathYearInput.current?.value,
-      });
-    else alert("name and surname required");
+    creation.mutate(personData);
   };
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.name == "mother_id" || event.target.name == "father_id") {
+      setPersonData({
+        ...personData,
+        [event.target.name]: Number(event.target.value),
+      });
+    } else {
+      setPersonData({ ...personData, [event.target.name]: event.target.value });
+    }
+  };
+  useEffect(()=>{
+    if (creation.isSuccess) {
+      setPersonData({
+        name: "",
+        surname: "",
+        year_of_birth: "",
+        year_of_death: "",
+        birth_place: "",
+        birth_surname: "",
+        father_id: 0,
+        mother_id: 0,
+      });
+    }
+  },[creation.isSuccess])
+
   return (
-    <div className="flex flex-col">
-      <label>
-        Jmeno : <input className="border" ref={nameInput}></input>
-      </label>
-      <label>
-        Prijmeni : <input className="border" ref={surnameInput}></input>
-      </label>
-      <label>
-        Rodne prijmeni :{" "}
-        <input className="border" ref={birthSurnameInput}></input>
-      </label>
-      <label>
-        Rok narozeni :{" "}
-        <input className="border" type="number" ref={birthYearInput}></input>
-      </label>
-      <label>
-        Rok umrti :{" "}
-        <input className="border" type="number" ref={deathYearInput}></input>
-      </label>
-      <label>
-        Misto narozeni :{" "}
-        <input className="border" type="number" ref={birthPlaceInput}></input>
-      </label>
-      <label>
-        Mother id{" "}
-        <input className="border" type="number" ref={motherInput}></input>
-      </label>
-      <label>
-        Father id{" "}
-        <input className="border" type="number" ref={fatherInput}></input>
-      </label>
-      <button onClick={putPersonInDB} className='w-6'>Create</button>
+    <div className={styles.container}>
+      <h1 className="col-start-1 col-end-3">Vytvoreni zaznamu v databazi</h1>
+      <div>Jmeno : </div>
+      <input
+        className="border"
+        name="name"
+        value={personData.name}
+        onChange={handleChange}
+      ></input>
+      <div>Prijmeni : </div>
+      <input
+        className="border"
+        name="surname"
+        value={personData.surname}
+        onChange={handleChange}
+      ></input>
+      <div>Rodne prijmeni : </div>
+      <input
+        className="border"
+        name="birth_surname"
+        value={personData.birth_surname}
+        onChange={handleChange}
+      ></input>
+      <div>Rok narozeni : </div>
+      <input
+        className="border"
+        type="number"
+        name="year_of_birth"
+        value={personData.year_of_birth}
+        onChange={handleChange}
+      ></input>
+      <div>Rok umrti : </div>
+      <input
+        className="border"
+        type="number"
+        name="year_of_death"
+        value={personData.year_of_death}
+        onChange={handleChange}
+      ></input>
+      <div>Misto narozeni : </div>
+      <input
+        className="border"
+        name="birth_place"
+        value={personData.birth_place}
+        onChange={handleChange}
+      ></input>
+      <div>Mother id </div>
+      <input
+        className="border"
+        type="number"
+        name="mother_id"
+        value={personData.mother_id}
+        onChange={handleChange}
+      ></input>
+      <div>Father id </div>
+      <input
+        className="border"
+        type="number"
+        name="father_id"
+        value={personData.father_id}
+        onChange={handleChange}
+      ></input>
+      <button onClick={putPersonInDB} className="w-16 border col-start-1 col-end-3">
+        Create
+      </button>
+      {creation.isSuccess && creation.data && (
+        <div>
+          {creation.data.name} {creation.data.surname} uspesne pridan/a do
+          databaze.
+        </div>
+      )}
     </div>
   );
 };

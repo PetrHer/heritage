@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { api } from "../utils/api";
+import styles from "../styles/DeleteForm.module.css";
 
 const DeleteForm = () => {
   const deletion = api.dbRouter.deletePerson.useMutation();
@@ -17,22 +18,26 @@ const DeleteForm = () => {
       search.mutate(Number(personToDelete.current.value));
   };
   return (
-    <div>
-      {!search.data &&(<><label>
-        ID ke smazani :{" "}
-        <input type="number" className="border" ref={personToDelete} />
-      </label>
-      <br />
-      <button onClick={findPerson} className="w-6">
-        search
-      </button></>)}
+    <div className={styles.container}>
+      <h1 className="col-start-1 col-end-3">Smazani zaznamu z databaze.</h1>
+      {!search.data && (
+        <>
+          <div>ID ke smazani : </div>
+          <input type="number" className="border" ref={personToDelete} />
+          <button onClick={findPerson} className="w-16 border col-start-1 col-end-3">
+            search
+          </button>
+        </>
+      )}
       {search.data && (
         <>
-          <div>ID : {search.data.id}</div>
-          <div>Jmeno : {search.data.name}</div>
-          <div>Prijmeni : {search.data.surname}</div>
-          <br />
-          <button onClick={deletePerson} className="w-6">
+          <div>ID : </div>
+          <div>{search.data.id}</div>
+          <div>Jmeno : </div>
+          <div>{search.data.name}</div>
+          <div>Prijmeni : </div>
+          <div>{search.data.surname}</div>
+          <button onClick={deletePerson} className="w-16 col-start-1 col-end-3">
             delete
           </button>
         </>
