@@ -6,7 +6,7 @@ import { api } from "../utils/api";
 const NavMenu = () => {
   const logout = () => {
     localStorage.removeItem("token");
-    window.location.reload();
+    window.location.href='/';
   };
   const verification = api.authRouter.verify.useMutation();
   useEffect(() => {

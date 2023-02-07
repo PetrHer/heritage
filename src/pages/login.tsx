@@ -25,12 +25,12 @@ const Login = () => {
     <div>
       <NavMenu />
       <div>username :</div>
-      <input className="border" ref={username} type="text" />
+      <input className="border" test-id='username' ref={username} type="text" />
       <br />
       <div>password :</div>
-      <input ref={password} className="border" type="password" />
+      <input ref={password} test-id='password' className="border" type="password" />
       <br />
-      <button onClick={login} className='border'>login</button>
+      <button onClick={login} test-id='signin' className='border'>login</button>
     </div>
   );
 };

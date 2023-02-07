@@ -19,7 +19,8 @@ const UpdateForm = () => {
 
   const updating = api.dbRouter.updatePerson.useMutation();
   const updatePersonInDB = () => {
-    updating.mutate(personData);
+    const token = localStorage.getItem("token");
+    if (token) {updating.mutate({...personData,token:token});}
   };
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.name == "mother_id" || event.target.name == "father_id" || event.target.name == "year_of_birth") {

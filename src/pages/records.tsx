@@ -4,20 +4,17 @@ import NavMenu from "../components/NavMenu";
 import UpdateForm from "../components/UpdateForm";
 import Head from "next/head";
 import { api } from "../utils/api";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const Records = () => {
   const verification = api.authRouter.verify.useMutation();
+  const [execution, setExecution] = useState<boolean>(false);
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       verification.mutate(token);
     }
   }, []);
-  if (!verification.isSuccess) {
-    alert("you need to be logged in");
-    window.location.href = "/login";
-  }
   return (
     <>
       <Head>
@@ -26,12 +23,13 @@ const Records = () => {
       </Head>
       <NavMenu />
       <div className="flex">
-        <InputForm />
+        {!verification.isSuccess && (<div>You need to be logged in.</div>)}
+        {verification.isSuccess &&(<InputForm />)}
         <br />
-        <DeleteForm />
+        {verification.isSuccess &&(<DeleteForm />)}
         <br />
         <br />
-        <UpdateForm />
+        {verification.isSuccess &&(<UpdateForm />)}
       </div>
     </>
   );

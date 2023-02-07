@@ -25,7 +25,8 @@ const InputForm = () => {
   });
   const creation = api.dbRouter.addPerson.useMutation();
   const putPersonInDB = () => {
-    creation.mutate(personData);
+    const token = localStorage.getItem("token");
+    if (token){creation.mutate({...personData,token:token});}
   };
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.name == "mother_id" || event.target.name == "father_id" || event.target.name == "year_of_birth") {

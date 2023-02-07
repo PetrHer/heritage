@@ -1,6 +1,8 @@
 import { z } from "zod";
 import { prisma } from "../../db";
 import { createTRPCRouter, publicProcedure } from "../trpc";
+import jwt from "jsonwebtoken";
+const secret = "minesupersecretkey";
 
 export const dbRouter = createTRPCRouter({
   getPerson: publicProcedure.input(z.number()).mutation(async (input) => {
@@ -46,9 +48,16 @@ export const dbRouter = createTRPCRouter({
         birth_surname: z.string().nullish(),
         mother_id: z.number(),
         father_id: z.number(),
+        token: z.string(),
       })
     )
     .mutation(async (input) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+      jwt.verify(input.input.token, secret, (err, _) => {
+        if (err) {
+          throw new Error("not logged in");
+        }
+      });
       const response = await prisma.person.create({
         data: {
           year_of_death: input.input.year_of_death,
@@ -63,10 +72,20 @@ export const dbRouter = createTRPCRouter({
       });
       return response;
     }),
-  deletePerson: publicProcedure.input(z.number()).mutation(async (input) => {
-    const response = await prisma.person.delete({ where: { id: input.input } });
-    return response;
-  }),
+  deletePerson: publicProcedure
+    .input(z.object({ id: z.number(), token: z.string() }))
+    .mutation(async (input) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+      jwt.verify(input.input.token, secret, (err, _) => {
+        if (err) {
+          throw new Error("not logged in");
+        }
+      });
+      const response = await prisma.person.delete({
+        where: { id: input.input.id },
+      });
+      return response;
+    }),
   updatePerson: publicProcedure
     .input(
       z.object({
@@ -79,6 +98,7 @@ export const dbRouter = createTRPCRouter({
         birth_surname: z.string().nullish(),
         mother_id: z.number(),
         father_id: z.number(),
+        token: z.string(),
       })
     )
     .mutation(async (input) => {
@@ -88,15 +108,25 @@ export const dbRouter = createTRPCRouter({
         year_of_birth: input.input.year_of_birth,
         mother_id: input.input.mother_id,
         father_id: input.input.father_id,
-        name:input.input.name,
-        surname:input.input.surname,
+        name: input.input.name,
+        surname: input.input.surname,
       };
-      const response = await prisma.person.update({where:{id:input.input.id},data})
-      return response
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+      jwt.verify(input.input.token, secret, (err, _) => {
+        if (err) {
+          throw new Error("not logged in");
+        }
+      });
+      const response = await prisma.person.update({
+        where: { id: input.input.id },
+        data,
+      });
+      return response;
     }),
-    getALL:publicProcedure
-      .mutation(async()=>{
-        const response = await prisma.person.findMany({where:{year_of_birth:{gt:1960}},select:{id:true,name:true,surname:true,year_of_birth:true}})
-        return response
-      })
+  getALL: publicProcedure.mutation(async () => {
+    const response = await prisma.person.findMany({
+      where: { year_of_birth: { gt: 1960 } },
+    });
+    return response;
+  }),
 });

@@ -8,7 +8,8 @@ const DeleteForm = () => {
   const personToDelete = useRef<HTMLInputElement>(null);
   const deletePerson = () => {
     if (search.data?.id) {
-      deletion.mutate(search.data.id);
+      const token = localStorage.getItem("token");
+      if(token){deletion.mutate({id:search.data.id,token:token});}
     }
     window.location.reload();
   };

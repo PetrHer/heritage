@@ -45,7 +45,7 @@ export const authRouter = createTRPCRouter({
         .mutation((input)=>{
             jwt.verify(input.input, secret, (err, decoded) => {
                 if (err) {
-                  throw new Error('invalid token')
+                  throw new Error('not logged in')
                 }
                 return true
               })
