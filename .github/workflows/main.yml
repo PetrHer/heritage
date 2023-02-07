@@ -48,4 +48,4 @@ jobs:
       - name: Install Jest
         run: npm install jest
       - name: Run Jest tests
-        run: jest test/jest-test/__tests__
+        run: npx jest test/jest-test/__tests__
