@@ -10,7 +10,7 @@ export const authRouter = createTRPCRouter({
   login: publicProcedure
     .input(z.object({ username: z.string(), password: z.string() }))
     .mutation(async(input) => {
-        const password_db = await prisma.user.findFirst({where:{username:input.input.username},select:{password:true}})
+        const password_db = await prisma.userLogin.findFirst({where:{username:input.input.username},select:{password:true}})
         if (password_db?.password){
             const isMatch = await bcrypt.compare(input.input.password, password_db?.password);
             if (!isMatch) {throw new Error('failed to login')}
@@ -37,7 +37,7 @@ export const authRouter = createTRPCRouter({
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
       const hashedPassword = await bcrypt.hash(input.input.password, saltRounds);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const response = await prisma.user.create({data:{username:input.input.username,password:hashedPassword}})
+      const response = await prisma.userLogin.create({data:{username:input.input.username,password:hashedPassword}})
       return response;
     }),
     verify:publicProcedure
