@@ -25,7 +25,7 @@ const DeleteForm = () => {
         <>
           <div>ID ke smazani : </div>
           <input type="number" className="border" ref={personToDelete} />
-          <button onClick={findPerson} className="w-16 border col-start-1 col-end-3">
+          <button onClick={findPerson} className="w-16 border border-black rounded-xl bg-blue-300 col-start-1 col-end-3">
             search
           </button>
         </>
@@ -38,7 +38,7 @@ const DeleteForm = () => {
           <div>{search.data.name}</div>
           <div>Prijmeni : </div>
           <div>{search.data.surname}</div>
-          <button onClick={deletePerson} className="w-16 col-start-1 col-end-3">
+          <button onClick={deletePerson} className="w-16 border border-black rounded-xl bg-blue-300 col-start-1 col-end-3">
             delete
           </button>
         </>

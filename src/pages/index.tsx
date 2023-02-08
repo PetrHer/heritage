@@ -8,7 +8,7 @@ const Home: NextPage = () => {
   const getData = api.dbRouter.getALL.useMutation();
   const changeId = (x: number) => {
     sessionStorage.setItem("id", x.toString());
-    window.location.href = "/person_id";
+    window.location.href = "/genealogy_chart";
   };
   const verification = api.authRouter.verify.useMutation()
   useEffect(()=>{
@@ -36,11 +36,11 @@ const Home: NextPage = () => {
         <title>Herytage</title>
         <meta name="description" content="heritage of Petr Herynek" />
       </Head>
-      <main className="flex min-h-screen flex-col items-center ">
         <NavMenu />
+      <main className="mainContent" >
         {getData.data &&
           getData.data.map((e) => (
-            <div key={e.id} onClick={() => changeId(e.id)} className="border">
+            <div key={e.id} onClick={() => changeId(e.id)} className="indexDetail">
               {e.id} {e.surname} {e.name} {e.year_of_birth}
             </div>
           ))}

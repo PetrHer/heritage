@@ -15,13 +15,13 @@ const Records = () => {
     }
   }, []);
   return (
-    <>
+    <div className='records'>
       <Head>
         <title>Herytage</title>
         <meta name="description" content="heritage of Petr Herynek" />
       </Head>
       <NavMenu />
-      <div className="flex">
+      <div className="flex " >
         {!verification.isSuccess && (<div>You need to be logged in.</div>)}
         {verification.isSuccess &&(<InputForm />)}
         <br />
@@ -30,7 +30,7 @@ const Records = () => {
         <br />
         {verification.isSuccess &&(<UpdateForm />)}
       </div>
-    </>
+    </div>
   );
 };
 

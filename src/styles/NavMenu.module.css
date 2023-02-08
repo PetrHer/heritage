@@ -1,9 +1,13 @@
 .navigation{
+    position: absolute;
+    top: 0%;
+    left: 0%;
     width: 100vw;
-    height: fit-content;
+    height: 5vh;
     padding: 5px;
-    background-color: bisque;
+    background-color: darkslategrey;
     margin-bottom: 10px;
+    color: goldenrod;
 }
 .linkItem{
     margin-left: 10px;

@@ -1,0 +1,38 @@
+.content {
+  width: fit-content;
+  height: fit-content;
+  display: grid;
+  grid-template-columns: fit-content fit-content;
+  grid-template-rows: fit-content fit-content;
+}
+.detail {
+  width: fit-content;
+  height: fit-content;
+  background-image: url("/frame.png");
+  background-size: 100% 100%;
+  padding: 25px;
+  margin-left: 20px;
+  margin-right: 20px;
+  cursor: pointer;
+}
+.button {
+  height: 20px;
+  width: 20px;
+  border-radius: 10px;
+}
+.buttonContainer {
+  display: flex;
+  padding-left: 45%;
+}
+.buttonPlus{
+  width: 20px;
+  height: 20px;
+  background-image: url('/plus.png');
+  background-size: contain;
+}
+.buttonMinus{
+  width: 20px;
+  height: 20px;
+  background-image: url('/minus.png');
+  background-size: contain;
+}

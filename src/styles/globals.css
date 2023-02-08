@@ -15,3 +15,61 @@
     border-radius: 10px;
   
 }
+.records{
+    background-image: url('/parchment.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    padding-top: 6vh;
+    
+}
+.login{
+    background-image: url('/parchment.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    padding-top: 30vh;
+    padding-left: 40vw;
+}
+.login > * {
+    margin: 5px;
+}
+.registration{
+    background-image: url('/parchment.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    padding-top: 30vh;
+    padding-left: 40vw;
+}
+.registration > * {
+    margin: 5px;
+}
+.mainContent{
+    display: grid;
+    background-image: url('/parchment.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    padding: 20px;
+    padding-top: 6vh;
+    grid-auto-flow: column;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: repeat(20, 1fr);
+}
+.indexDetail{
+    width: 250px;
+    border: black solid;
+    margin: 5px;
+    padding-left: 5px;
+    box-shadow: 2px 2px 2px 2px;
+    cursor: pointer;
+    background-color: whitesmoke;
+}
+.genContent{
+    height: 100vh;
+    padding-top: 6vh;
+    background-image: url('/parchment.jpg');
+    background-size: cover;
+    background-position: center;
+}

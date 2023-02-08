@@ -1,5 +1,9 @@
-.content{
-    display: grid;
-    grid-template-columns: 1fr fit-content;
-    grid-template-rows: fit-content 1fr;
+.container{
+    position: absolute;
+    top: 5vh;
+    right: 0vw;
+    height: 95vh;
+    width: 200px;
+    background-color: bisque;
+    padding: 10px;
 }

@@ -116,7 +116,7 @@ const InputForm = () => {
         value={personData.father_id}
         onChange={handleChange}
       ></input>
-      <button onClick={putPersonInDB} className="w-16 border col-start-1 col-end-3">
+      <button onClick={putPersonInDB} className="w-16 border border-black rounded-xl bg-blue-300 col-start-1 col-end-3">
         Create
       </button>
       {creation.isSuccess && creation.data && (

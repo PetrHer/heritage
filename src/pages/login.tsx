@@ -21,17 +21,18 @@ const Login = () => {
   if (loginMethod.isError) {
     alert(loginMethod.error.message);
   }
-  return (
-    <div>
+  return (<>
       <NavMenu />
+    <div className="login">
       <div>username :</div>
       <input className="border" test-id='username' ref={username} type="text" />
       <br />
       <div>password :</div>
       <input ref={password} test-id='password' className="border" type="password" />
       <br />
-      <button onClick={login} test-id='signin' className='border'>login</button>
+      <button onClick={login} test-id='signin' className='w-16 border border-black rounded-xl bg-blue-300'>login</button>
     </div>
+    </>
   );
 };
 
