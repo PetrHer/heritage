@@ -20,6 +20,9 @@ const NavMenu = () => {
       <Link className={styles.linkItem} href={"/"}>
         HOME
       </Link>
+      <Link className={styles.linkItem} href={"/list"}>
+        LIST
+      </Link>
       {verification.isSuccess && (<Link className={styles.linkItem} href={"/records"}>
         RECORDS
       </Link>)}

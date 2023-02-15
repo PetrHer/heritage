@@ -4,7 +4,7 @@ import { mockDeep } from "jest-mock-extended";
 import { Person, PrismaClient } from "@prisma/client";
 import { createInnerTRPCContext } from "../../../src/server/api/trpc";
 
-test("getPerson id 1", async () => {
+test("get all", async () => {
 
   const caller = appRouter.createCaller(
     createInnerTRPCContext({ session: null, prisma: prisma })

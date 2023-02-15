@@ -73,7 +73,7 @@ const UpdateForm = () => {
           <input
             className="border"
             name="birth_surname"
-            value={personData.birth_surname || undefined}
+            value={personData.birth_surname || ''}
             onChange={handleChange}
           ></input>
           <div>Rok narozeni : </div>
@@ -81,7 +81,7 @@ const UpdateForm = () => {
             className="border"
             type="number"
             name="year_of_birth"
-            value={personData.year_of_birth || undefined}
+            value={personData.year_of_birth || ''}
             onChange={handleChange}
           ></input>
           <div>Rok umrti : </div>
@@ -89,14 +89,14 @@ const UpdateForm = () => {
             className="border"
             type="number"
             name="year_of_death"
-            value={personData.year_of_death || undefined}
+            value={personData.year_of_death || ''}
             onChange={handleChange}
           ></input>
           <div>Misto narozeni : </div>
           <input
             className="border"
             name="birth_place"
-            value={personData.birth_place || undefined}
+            value={personData.birth_place || ''}
             onChange={handleChange}
           ></input>
           <div>Mother id </div>
@@ -104,7 +104,7 @@ const UpdateForm = () => {
             className="border"
             type="number"
             name="mother_id"
-            value={personData.mother_id || undefined}
+            value={personData.mother_id || ''}
             onChange={handleChange}
           ></input>
           <div>Father id </div>
@@ -112,7 +112,7 @@ const UpdateForm = () => {
             className="border"
             type="number"
             name="father_id"
-            value={personData.father_id || undefined}
+            value={personData.father_id || ''}
             onChange={handleChange}
           ></input>
           <button onClick={updatePersonInDB} className="w-16 border border-black rounded-xl bg-blue-300 border">

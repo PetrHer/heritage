@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('person_id',async ({page})=>{
-    await page.goto('/person_id');
+    await page.goto('/genealogy_chart');
     await expect(page).toHaveTitle('Herytage');
 });
 
