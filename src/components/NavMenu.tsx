@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Verification from "../pages/verification";
 import styles from "../styles/NavMenu.module.css";
 import { api } from "../utils/api";
 
@@ -36,7 +37,8 @@ const NavMenu = () => {
           REGISTRATION
         </Link>
       )}
-      {verification.isSuccess && <button onClick={logout}>LOGOUT</button>}
+      {verification.isSuccess && verification.data && verification.data.username && (<div className={styles.linkItem}> Logged as {verification.data.username}</div>)}
+      {verification.isSuccess && <button className={styles.linkItem} onClick={logout}>LOGOUT</button>}
     </header>
   );
 };
