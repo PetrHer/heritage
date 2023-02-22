@@ -8,6 +8,8 @@ import { z } from "zod";
 export const serverSchema = z.object({
   DATABASE_URL: z.string().url(),
   NODE_ENV: z.enum(["development", "test", "production"]),
+  GMAIL: z.string().email(),
+  GMAIL_PASS: z.string()
 
 });
 
@@ -19,6 +21,8 @@ export const serverSchema = z.object({
 export const serverEnv = {
   DATABASE_URL: "postgresql://postgres:Ph101912848$@db.bnjcklhtmxxsdvaqzmpj.supabase.co:5432/postgres",
   NODE_ENV: process.env.NODE_ENV,
+  GMAIL: 'herytage.mailer@gmail.com',
+GMAIL_PASS: 'jdnqwyyfiimpwvdj'
 
 };
 
