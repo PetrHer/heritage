@@ -123,10 +123,8 @@ export const dbRouter = createTRPCRouter({
       });
       return response;
     }),
-  getALL: publicProcedure.mutation(async () => {
-    const response = await prisma.person.findMany({
-      where: { year_of_birth: { gt: 1960 } },
-    });
+  getAll: publicProcedure.mutation(async () => {
+    const response = await prisma.person.findMany();
     return response;
   }),
 });
