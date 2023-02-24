@@ -2,7 +2,7 @@ import { z } from "zod";
 import { prisma } from "../../db";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
+import jwt, { JwtPayload } from 'jsonwebtoken'
 import nodemailer from 'nodemailer';
 
 const secret = 'minesupersecretkey'
@@ -48,7 +48,7 @@ export const authRouter = createTRPCRouter({
         const pasResTokenGen = String.fromCharCode(Math.floor(Math.random() * 26) + 97)
         pasResToken += pasResTokenGen
       }
-      const verified = await prisma.verificationToken.create({ data: { identifier: response.username, expires: timeOfExpiration, token: pasResToken } })
+      await prisma.verificationToken.create({ data: { identifier: response.username, expires: timeOfExpiration, token: pasResToken } })
       const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -61,7 +61,7 @@ export const authRouter = createTRPCRouter({
         from: process.env.GMAIL,
         to: input.input.email,
         subject: 'verification email',
-        text: process.env.HOST + `/verification/?passwordToken=${pasResToken}`
+        text: process.env.HOST as string + `/verification/?passwordToken=${pasResToken}`
       };
       transporter.sendMail(mailOptions, (error: any, info: any) => {
         if (error) {
@@ -76,13 +76,14 @@ export const authRouter = createTRPCRouter({
     .input(z.string())
     .mutation((input) => {
       return new Promise((resolve, reject) => {
-        jwt.verify(input.input, secret, (err, decoded) => {
+         jwt.verify(input.input, secret, (err, decoded) => {
           if (err) {
-            reject(new Error('not logged in'))
+            reject (new Error('not logged in'))
           } else {
-            resolve(decoded)
+            const payload = decoded as JwtPayload
+            resolve(payload.username)
           }
-        })
+         })
       })
     }),
   verifyEmail: publicProcedure

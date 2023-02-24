@@ -5,7 +5,7 @@ import NavMenu from "../components/NavMenu";
 import { api } from "../utils/api";
 
 const Home: NextPage = () => {
-  const getData = api.dbRouter.getALL.useMutation();
+  const getData = api.dbRouter.getAll.useMutation();
   const changeId = (x: number) => {
     sessionStorage.setItem("id", x.toString());
     window.location.href = "/genealogy_chart";

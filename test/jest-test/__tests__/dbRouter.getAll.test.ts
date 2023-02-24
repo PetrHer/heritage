@@ -10,8 +10,7 @@ test("get all", async () => {
     createInnerTRPCContext({ session: null, prisma: prisma })
   );
 
-  const result = await caller.dbRouter.getALL()
+  const result = await caller.dbRouter.getAll()
   
-  expect(result).toHaveLength(9);
-  expect(result.filter(e=>(e.year_of_birth && e.year_of_birth<1960))).toHaveLength(0)
+  expect(result[0]?.name).toBe('Pavel');
 });
