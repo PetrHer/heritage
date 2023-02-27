@@ -61,7 +61,7 @@ export const authRouter = createTRPCRouter({
         from: process.env.GMAIL,
         to: input.input.email,
         subject: 'verification email',
-        text: process.env.HOST as string + `/verification/?passwordToken=${pasResToken}`
+        text: `herytage.onrender.com/verification/?passwordToken=${pasResToken}`
       };
       transporter.sendMail(mailOptions, (error: any, info: any) => {
         if (error) {
