@@ -18,10 +18,9 @@ const PersonDetail = ({id}:{id:number|undefined}) => {
   }, []);
   return (
     <>
-      {verification.isSuccess &&(<div className={style.container}>
+      {verification.isSuccess &&(<div >
         {getPersonDetail.data && (
           <>
-            <h1>Detail</h1>
             <div>id : {getPersonDetail.data.id}</div>
             <div>jmeno : {getPersonDetail.data.name}</div>
             <div>prijmeni : {getPersonDetail.data.surname}</div>

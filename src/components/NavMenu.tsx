@@ -1,14 +1,18 @@
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styles from "../styles/NavMenu.module.css";
 import { api } from "../utils/api";
 
 const NavMenu = () => {
+  const [selected,setSelected]=useState<boolean>(false)
   const logout = () => {
     localStorage.removeItem("token");
     window.location.href = '/';
   };
   const verification = api.authRouter.verify.useMutation();
+  useEffect(()=>{
+    if (sessionStorage.getItem('id')){setSelected(true)}
+  },[])
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -24,6 +28,12 @@ const NavMenu = () => {
         <Link className={styles.linkItem} href={"/list"}>
           LIST
         </Link>
+        {selected && (<Link className={styles.linkItem} href={"/genealogy_chart"}>
+          GENEALOGY
+        </Link>)}
+        {selected && verification.isSuccess && (<Link className={styles.linkItem} href={"/person_detail"}>
+          DETAIL
+        </Link>)}
         {verification.isSuccess && (<Link className={styles.linkItem} href={"/records"}>
           RECORDS
         </Link>)}
