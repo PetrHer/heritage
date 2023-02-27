@@ -31,8 +31,8 @@ const Records = () => {
       <NavMenu />
       <div className="flex " >
         {!verification.isSuccess && (<div>You need to be logged in.</div>)}
-        {verification.isSuccess && !priv && (<div>You don't have rights.</div>)}
-        {verification.isSuccess && priv &&(<InputForm />)}
+        {verification.isSuccess && !priv && (<div>You don{`'`}t have rights.</div>)}
+        {verification.isSuccess && priv && (<InputForm />)}
         <br />
         {verification.isSuccess && priv &&(<DeleteForm />)}
         <br />

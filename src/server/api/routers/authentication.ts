@@ -77,7 +77,7 @@ export const authRouter = createTRPCRouter({
     .input(z.string())
     .mutation((input) => {
       return new Promise((resolve, reject) => {
-         jwt.verify(input.input, secret,async (err, decoded) => {
+         jwt.verify(input.input, secret,(err, decoded) => {
           if (err) {
             reject (new Error('not logged in'))
           } else {
