@@ -5,11 +5,13 @@ import { api } from "../utils/api";
 
 const NavMenu = () => {
   const [selected,setSelected]=useState<boolean>(false)
+  const [priv,setPriv]=useState<boolean>(false)
   const logout = () => {
     localStorage.removeItem("token");
     window.location.href = '/';
   };
   const verification = api.authRouter.verify.useMutation();
+  const privilegesCheck = api.authRouter.privilegeCheck.useMutation()
   useEffect(()=>{
     if (sessionStorage.getItem('id')){setSelected(true)}
   },[])
@@ -19,6 +21,12 @@ const NavMenu = () => {
       verification.mutate(token);
     }
   }, []);
+  useEffect(()=>{
+    if (verification.isSuccess){privilegesCheck.mutate(verification.data as string)}
+  },[verification.data])
+  useEffect(()=>{
+    if (privilegesCheck.data?.privileges?.privileges) {setPriv(privilegesCheck.data.privileges.privileges)}
+  },[privilegesCheck.data])
   return (
     <header className={styles.navigation}>
       <>
@@ -34,7 +42,7 @@ const NavMenu = () => {
         {selected && verification.isSuccess && (<Link className={styles.linkItem} href={"/person_detail"}>
           DETAIL
         </Link>)}
-        {verification.isSuccess && (<Link className={styles.linkItem} href={"/records"}>
+        {verification.isSuccess &&  priv && (<Link className={styles.linkItem} href={"/records"}>
           RECORDS
         </Link>)}
         {!verification.isSuccess && (

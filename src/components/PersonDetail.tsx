@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { api } from "../utils/api";
-import style from "../styles/PersonDetail.module.css";
 
 const PersonDetail = ({id}:{id:number|undefined}) => {
   const getPersonDetail = api.dbRouter.getPerson.useMutation();
@@ -19,6 +18,7 @@ const PersonDetail = ({id}:{id:number|undefined}) => {
   return (
     <>
       {verification.isSuccess &&(<div >
+        {getPersonDetail.isError && (<div>Not found.</div>)}
         {getPersonDetail.data && (
           <>
             <div>id : {getPersonDetail.data.id}</div>

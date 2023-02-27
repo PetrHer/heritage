@@ -6,7 +6,7 @@ const secret = "minesupersecretkey";
 
 export const dbRouter = createTRPCRouter({
   getPerson: publicProcedure.input(z.number()).mutation(async (input) => {
-    const response = await prisma.person.findFirst({
+    const response = await prisma.person.findFirstOrThrow({
       where: { id: input.input },
     });
     return response;
