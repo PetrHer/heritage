@@ -12,5 +12,5 @@ test("get all", async () => {
 
   const result = await caller.dbRouter.getAll()
   
-  expect(result[0]?.name).toBe('Pavel');
+  expect(result[0]?.name).toBe('Petr');
 });

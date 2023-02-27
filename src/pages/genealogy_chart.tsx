@@ -4,6 +4,7 @@ import GenealogyChart from "../components/GenealogyChart";
 import { api } from "../utils/api";
 import Head from "next/head";
 import PersonDetail from "../components/PersonDetail";
+import style from "../styles/PersonDetail.module.css";
 
 const PersonId = () => {
   const [id, setId] = useState<number>();
@@ -27,9 +28,12 @@ const PersonId = () => {
         <title>Herytage</title>
         <meta name="description" content="heritage of Petr Herynek" />
       </Head>
-        <NavMenu />
+      <NavMenu />
       <div className="genContent " >
-        <PersonDetail id={id} />
+        <div className={style.container}>
+        <h1>Detail</h1>
+          <PersonDetail id={id} />
+        </div>
         {response.data && (
           <GenealogyChart
             changeId={changeId}

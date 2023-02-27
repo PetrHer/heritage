@@ -1,3 +1,4 @@
+import Head from "next/head";
 import React, { useRef } from "react";
 import NavMenu from "../components/NavMenu";
 import { api } from "../utils/api";
@@ -27,6 +28,10 @@ const Registration = () => {
   }
   return (
     <>
+      <Head>
+        <title>Herytage</title>
+        <meta name="description" content="heritage of Petr Herynek" />
+      </Head>
       <NavMenu />
       <div className="registration">
         {!reg.isSuccess && (<> <div>username :</div>
@@ -47,7 +52,7 @@ const Registration = () => {
           >
             register
           </button></>)}
-          {reg.isSuccess && (<div>Registration succesfull, verification email sent.</div>)}
+        {reg.isSuccess && (<div>Registration succesfull, verification email sent.</div>)}
       </div>
     </>
   );
