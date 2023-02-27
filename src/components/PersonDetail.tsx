@@ -19,6 +19,7 @@ const PersonDetail = ({id}:{id:number|undefined}) => {
   return (
     <>
       {verification.isSuccess &&(<div >
+        {getPersonDetail.isError && (<div>Not found.</div>)}
         {getPersonDetail.data && (
           <>
             <div>id : {getPersonDetail.data.id}</div>

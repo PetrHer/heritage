@@ -12,7 +12,8 @@ export const authRouter = createTRPCRouter({
   login: publicProcedure
     .input(z.object({ username: z.string(), password: z.string() }))
     .mutation(async (input) => {
-      const password_db = await prisma.userLogin.findFirst({ where: { username: input.input.username }, select: { password: true } })
+  
+      const password_db = await prisma.userLogin.findFirstOrThrow({ where: { username: input.input.username }, select: { password: true } })
       if (password_db?.password) {
         const isMatch = await bcrypt.compare(input.input.password, password_db?.password);
         if (!isMatch) { throw new Error('failed to login') }
@@ -76,7 +77,7 @@ export const authRouter = createTRPCRouter({
     .input(z.string())
     .mutation((input) => {
       return new Promise((resolve, reject) => {
-         jwt.verify(input.input, secret, (err, decoded) => {
+         jwt.verify(input.input, secret,async (err, decoded) => {
           if (err) {
             reject (new Error('not logged in'))
           } else {
@@ -91,12 +92,19 @@ export const authRouter = createTRPCRouter({
     .mutation(async (input) => {
       const currentTime = new Date()
       console.log(input.input)
-      const accountToVerify = await prisma.verificationToken.findFirst({ where: { token: input.input } })
+      const accountToVerify = await prisma.verificationToken.findFirstOrThrow({ where: { token: input.input } })
       if (!accountToVerify) { throw new Error('invalid token') }
       if (currentTime > accountToVerify.expires) { throw new Error('toked expired') }
       const response = await prisma.userLogin.update({ data: { verified: true }, where: { username: accountToVerify.identifier } })
       await prisma.verificationToken.deleteMany({where:{ token: input.input }})
       const token = jwt.sign({ username: response.username }, secret)
       return token
-    })
+    }),
+    privilegeCheck:publicProcedure
+      .input(z.string())
+      .mutation(async(input)=>{
+        console.log(input.input)
+          const privileges = await prisma.userLogin.findFirstOrThrow({where:{username:input.input},select:{privileges:true}})
+          return {privileges:privileges}
+      })
 });
