@@ -15,6 +15,8 @@ const UpdateForm = () => {
     birth_place: "",
     father_id: 0,
     mother_id: 0,
+    description:'',
+    image:''
   });
 
   const updating = api.dbRouter.updatePerson.useMutation();
@@ -113,6 +115,14 @@ const UpdateForm = () => {
             type="number"
             name="father_id"
             value={personData.father_id || ''}
+            onChange={handleChange}
+          ></input>
+                   <div>Description</div>
+          <input
+            className="border"
+            type="text"
+            name="description"
+            value={personData.description || ''}
             onChange={handleChange}
           ></input>
           <button onClick={updatePersonInDB} className="w-16 border border-black rounded-xl bg-blue-300 border">

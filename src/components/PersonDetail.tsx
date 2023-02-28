@@ -1,12 +1,15 @@
 import { useEffect } from "react";
 import { api } from "../utils/api";
+import PropTypes from 'prop-types';
 
-const PersonDetail = ({id}:{id:number|undefined}) => {
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+const PersonDetail = ({id,setPhoto=()=>{},setInfo=()=>{}}:{id:number|undefined,setPhoto:(arg:string)=>void,setInfo:(arg:string)=>void}) => {
   const getPersonDetail = api.dbRouter.getPerson.useMutation();
   useEffect(() => {
     if (id) {
       getPersonDetail.mutate(Number(id));
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
   const verification = api.authRouter.verify.useMutation();
   useEffect(() => {
@@ -14,7 +17,15 @@ const PersonDetail = ({id}:{id:number|undefined}) => {
     if (token) {
       verification.mutate(token);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  useEffect(()=>{
+    if (getPersonDetail.data?.image){setPhoto(getPersonDetail.data.image)}
+    else {setPhoto('')}
+    if (getPersonDetail.data?.description){setInfo(getPersonDetail.data.description)}
+        else {setInfo('')}
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[getPersonDetail.data])
   return (
     <>
       {verification.isSuccess &&(<div >
@@ -36,10 +47,10 @@ const PersonDetail = ({id}:{id:number|undefined}) => {
             {getPersonDetail.data.birth_surname && (
               <div>rodne prijmeni : {getPersonDetail.data.birth_surname}</div>
             )}
-            {getPersonDetail.data.mother_id && (
+            {getPersonDetail.data.mother_id!=0 && (
               <div>id matky : {getPersonDetail.data.mother_id}</div>
             )}
-            {getPersonDetail.data.father_id && (
+            {getPersonDetail.data.father_id!=0 && (
               <div>id otce : {getPersonDetail.data.father_id}</div>
             )}
           </>
@@ -50,3 +61,14 @@ const PersonDetail = ({id}:{id:number|undefined}) => {
 };
 
 export default PersonDetail;
+
+PersonDetail.defaultProps = {
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  setPhoto:()=>{},
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  setInfo:()=>{}
+}
+PersonDetail.propTypes = {
+  setPhoto:PropTypes.func,
+  setInfo:PropTypes.func
+}

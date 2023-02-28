@@ -15,6 +15,7 @@ const Home: NextPage = () => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) { verification.mutate(token) }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   useEffect(() => {
     getData.mutate();

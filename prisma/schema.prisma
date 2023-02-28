@@ -17,6 +17,8 @@ model Person {
   year_of_birth Int?
   year_of_death String?
   birth_place   String?
+  image         String? @default("https://bnjcklhtmxxsdvaqzmpj.supabase.co/storage/v1/object/sign/herytage/Mr._Smiley_Face.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJoZXJ5dGFnZS9Nci5fU21pbGV5X0ZhY2Uuc3ZnIiwiaWF0IjoxNjc3NTM2ODEzLCJleHAiOjE2ODAxMjg4MTN9.UDEeRvBa3l7xCIjJLGf-4Gqp_hK368TrrSu4rJDkm6M&t=2023-02-27T22%3A26%3A53.386Z")
+  description   String?
 }
 
 model UserLogin {

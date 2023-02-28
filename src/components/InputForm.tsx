@@ -10,6 +10,7 @@ type Character = {
   birth_surname: string;
   father_id: number;
   mother_id: number;
+  description:string;
 };
 
 const InputForm = () => {
@@ -22,6 +23,7 @@ const InputForm = () => {
     birth_surname: "",
     father_id: 0,
     mother_id: 0,
+    description:''
   });
   const creation = api.dbRouter.addPerson.useMutation();
   const putPersonInDB = () => {
@@ -49,6 +51,7 @@ const InputForm = () => {
         birth_surname: "",
         father_id: 0,
         mother_id: 0,
+        description:''
       });
     }
   },[creation.isSuccess])
@@ -114,6 +117,14 @@ const InputForm = () => {
         type="number"
         name="father_id"
         value={personData.father_id}
+        onChange={handleChange}
+      ></input>
+            <div>Description </div>
+      <input
+        className="border"
+        type="text-area"
+        name="description"
+        value={personData.description}
         onChange={handleChange}
       ></input>
       <button onClick={putPersonInDB} className="w-16 border border-black rounded-xl bg-blue-300 col-start-1 col-end-3">
