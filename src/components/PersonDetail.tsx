@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { api } from "../utils/api";
+import PropTypes from 'prop-types';
 
-const PersonDetail = ({id}:{id:number|undefined}) => {
+const PersonDetail = ({id,setPhoto=()=>{},setInfo=()=>{}}:{id:number|undefined,setPhoto:(arg:string)=>void,setInfo:(arg:string)=>void}) => {
   const getPersonDetail = api.dbRouter.getPerson.useMutation();
   useEffect(() => {
     if (id) {
@@ -15,6 +16,12 @@ const PersonDetail = ({id}:{id:number|undefined}) => {
       verification.mutate(token);
     }
   }, []);
+  useEffect(()=>{
+    if (getPersonDetail.data?.image){setPhoto(getPersonDetail.data.image)}
+    else {setPhoto('')}
+    if (getPersonDetail.data?.description){setInfo(getPersonDetail.data.description)}
+        else {setInfo('')}
+  },[getPersonDetail.data])
   return (
     <>
       {verification.isSuccess &&(<div >
@@ -36,10 +43,10 @@ const PersonDetail = ({id}:{id:number|undefined}) => {
             {getPersonDetail.data.birth_surname && (
               <div>rodne prijmeni : {getPersonDetail.data.birth_surname}</div>
             )}
-            {getPersonDetail.data.mother_id && (
+            {getPersonDetail.data.mother_id!=0 && (
               <div>id matky : {getPersonDetail.data.mother_id}</div>
             )}
-            {getPersonDetail.data.father_id && (
+            {getPersonDetail.data.father_id!=0 && (
               <div>id otce : {getPersonDetail.data.father_id}</div>
             )}
           </>
@@ -50,3 +57,12 @@ const PersonDetail = ({id}:{id:number|undefined}) => {
 };
 
 export default PersonDetail;
+
+PersonDetail.defaultProps = {
+  setPhoto:()=>{},
+  setInfo:()=>{}
+}
+PersonDetail.propTypes = {
+  setPhoto:PropTypes.func,
+  setInfo:PropTypes.func
+}

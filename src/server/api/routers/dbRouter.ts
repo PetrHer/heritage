@@ -49,6 +49,7 @@ export const dbRouter = createTRPCRouter({
         mother_id: z.number(),
         father_id: z.number(),
         token: z.string(),
+        description:z.string().nullish()
       })
     )
     .mutation(async (input) => {
@@ -99,6 +100,7 @@ export const dbRouter = createTRPCRouter({
         mother_id: z.number(),
         father_id: z.number(),
         token: z.string(),
+        description:z.string().nullish()
       })
     )
     .mutation(async (input) => {
@@ -110,6 +112,7 @@ export const dbRouter = createTRPCRouter({
         father_id: input.input.father_id,
         name: input.input.name,
         surname: input.input.surname,
+        description:input.input.description
       };
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
       jwt.verify(input.input.token, secret, (err, _) => {
@@ -127,10 +130,10 @@ export const dbRouter = createTRPCRouter({
   .input(z.string().nullish())
   .mutation(async (input) => {
     if (input.input){
-      const response = await prisma.person.findMany({where:{surname:input.input}})
+      const response = await prisma.person.findMany({where:{surname:input.input},select:{name:true,surname:true,year_of_birth:true,id:true}})
       return response
     }
-    const response = await prisma.person.findMany({where:{year_of_birth:{gt:1960}}});
+    const response = await prisma.person.findMany({where:{year_of_birth:{gt:1960}},select:{name:true,surname:true,year_of_birth:true,id:true}});
     return response;
   }),
 });
