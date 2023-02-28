@@ -2,12 +2,14 @@ import { useEffect } from "react";
 import { api } from "../utils/api";
 import PropTypes from 'prop-types';
 
+// eslint-disable-next-line @typescript-eslint/no-empty-function
 const PersonDetail = ({id,setPhoto=()=>{},setInfo=()=>{}}:{id:number|undefined,setPhoto:(arg:string)=>void,setInfo:(arg:string)=>void}) => {
   const getPersonDetail = api.dbRouter.getPerson.useMutation();
   useEffect(() => {
     if (id) {
       getPersonDetail.mutate(Number(id));
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
   const verification = api.authRouter.verify.useMutation();
   useEffect(() => {
@@ -15,12 +17,14 @@ const PersonDetail = ({id,setPhoto=()=>{},setInfo=()=>{}}:{id:number|undefined,s
     if (token) {
       verification.mutate(token);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(()=>{
     if (getPersonDetail.data?.image){setPhoto(getPersonDetail.data.image)}
     else {setPhoto('')}
     if (getPersonDetail.data?.description){setInfo(getPersonDetail.data.description)}
         else {setInfo('')}
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[getPersonDetail.data])
   return (
     <>
@@ -59,7 +63,9 @@ const PersonDetail = ({id,setPhoto=()=>{},setInfo=()=>{}}:{id:number|undefined,s
 export default PersonDetail;
 
 PersonDetail.defaultProps = {
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   setPhoto:()=>{},
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   setInfo:()=>{}
 }
 PersonDetail.propTypes = {

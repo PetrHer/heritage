@@ -53,7 +53,7 @@ export const dbRouter = createTRPCRouter({
       })
     )
     .mutation(async (input) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unused-vars
       jwt.verify(input.input.token, secret, (err, _) => {
         if (err) {
           throw new Error("not logged in");
@@ -76,7 +76,7 @@ export const dbRouter = createTRPCRouter({
   deletePerson: publicProcedure
     .input(z.object({ id: z.number(), token: z.string() }))
     .mutation(async (input) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unused-vars
       jwt.verify(input.input.token, secret, (err, _) => {
         if (err) {
           throw new Error("not logged in");
@@ -114,7 +114,7 @@ export const dbRouter = createTRPCRouter({
         surname: input.input.surname,
         description:input.input.description
       };
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unused-vars
       jwt.verify(input.input.token, secret, (err, _) => {
         if (err) {
           throw new Error("not logged in");

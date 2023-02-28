@@ -10,6 +10,7 @@ const passResToken = router.query.passwordToken as string || ''
 const verifyEmail = api.authRouter.verifyEmail.useMutation()
 useEffect(()=>{
    verifyEmail.mutate(passResToken)
+// eslint-disable-next-line react-hooks/exhaustive-deps
 },[passResToken])
 if (verifyEmail.isSuccess){
   localStorage.setItem("token", verifyEmail.data);

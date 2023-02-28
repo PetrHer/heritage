@@ -2,7 +2,8 @@ import { z } from "zod";
 import { prisma } from "../../db";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 import bcrypt from 'bcrypt'
-import jwt, { JwtPayload } from 'jsonwebtoken'
+import type { JwtPayload } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken'
 import nodemailer from 'nodemailer';
 
 const secret = 'minesupersecretkey'
@@ -64,7 +65,7 @@ export const authRouter = createTRPCRouter({
         subject: 'verification email',
         text: `herytage.onrender.com/verification/?passwordToken=${pasResToken}`
       };
-      transporter.sendMail(mailOptions, (error: any, info: any) => {
+      transporter.sendMail(mailOptions, (error: unknown) => {
         if (error) {
           throw new Error("not send");
         } else {
