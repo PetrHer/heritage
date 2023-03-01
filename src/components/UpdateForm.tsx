@@ -51,7 +51,7 @@ const UpdateForm = () => {
       <h1 className="col-start-1 col-end-3">Upraveni zaznamu v databazi.</h1>
       <div>ID k update : </div>
       <input className="border" type="number" ref={idInput}></input>
-      <button onClick={findPerson} className="w-16 border border-black rounded-xl bg-blue-300 col-start-1 col-end-3">
+      <button onClick={findPerson} className="buttons">
         search
       </button>
       {search.data && (
@@ -125,7 +125,7 @@ const UpdateForm = () => {
             value={personData.description || ''}
             onChange={handleChange}
           ></input>
-          <button onClick={updatePersonInDB} className="w-16 border border-black rounded-xl bg-blue-300 border">
+          <button onClick={updatePersonInDB} className="buttons">
             update
           </button>
         </>
