@@ -73,3 +73,16 @@
     background-size: cover;
     background-position: center;
 }
+.buttons{
+    border: solid 1px black;
+    background-color: rgba(147, 197, 253);
+    margin: 0.25rem;
+    width: 5rem;
+    border-radius: 1rem;
+    padding: 2px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.buttons :disabled{
+    background-color: grey;
+}

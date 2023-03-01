@@ -11,6 +11,6 @@ test("get all", async () => {
   );
 
   const result = await caller.dbRouter.getAll()
-  
+  result.sort((a,b)=> a.id-b.id)
   expect(result[0]?.name).toBe('Petr');
 });

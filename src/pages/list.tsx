@@ -53,7 +53,7 @@ const Home: NextPage = () => {
           <div className='w-40 m-1'>Search by surname : </div>
           <input className='border border-black w-40 m-1 px-1 rounded-md' ref={surname} type="text" /> 
           <br />
-          <button onClick={searchBySurname} className='border border-black m-1 px-2 rounded-xl bg-blue-300'>Search</button>
+          <button onClick={searchBySurname} className='buttons'>Search</button>
         </div>
       </main>
     </>
