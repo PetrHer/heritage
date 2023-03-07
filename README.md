@@ -15,10 +15,15 @@ Some features are only for registered users and some only for users with admin p
 ## Technologies Used
 
 Node.js
+
 React
+
 tRPC
+
 prisma
+
 tailwind and css
+
 JWT
 
 ## Deployment
