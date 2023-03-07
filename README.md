@@ -1,28 +1,27 @@
-# Create T3 App
+# Heritage
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+This website displays a genealogy tree of a person selected from a database. The user can navigate through the tree to view ancestors, children and siblings of the selected person.
 
-## What's next? How do I make an app with this?
+## Usage
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+1. Open a web browser and navigate to https://herytage.onrender.com.
+2 .Select a list from the navigation bar and then chose person.
+3. Genealogy in navigation bar leads to genealogy tree of chosen person and detail to more information.
+Some features are only for registered users and some only for users with admin privileges (updating records in database).
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+## Technologies Used
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+Node.js
+React
+tRPC
+prisma
+tailwind and css
+JWT
 
-## Learn More
+## Deployment
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+Project is currently deployed on https://herytage.onrender.com and intial load is slow because of free deployment, which will be sorted after finnishing project.
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+##Credits
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
-
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+This project was created by Petr Herynek. If you have any questions or suggestions, please contact me at petrherynek@seznam.cz.
