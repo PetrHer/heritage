@@ -22,6 +22,6 @@ JWT
 
 Project is currently deployed on https://herytage.onrender.com and intial load is slow because of free deployment, which will be sorted after finnishing project.
 
-##Credits
+## Credits
 
 This project was created by Petr Herynek. If you have any questions or suggestions, please contact me at petrherynek@seznam.cz.
