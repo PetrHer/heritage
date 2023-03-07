@@ -5,8 +5,11 @@ This website displays a genealogy tree of a person selected from a database. The
 ## Usage
 
 1. Open a web browser and navigate to https://herytage.onrender.com.
+
 2 .Select a list from the navigation bar and then chose person.
+
 3. Genealogy in navigation bar leads to genealogy tree of chosen person and detail to more information.
+
 Some features are only for registered users and some only for users with admin privileges (updating records in database).
 
 ## Technologies Used
