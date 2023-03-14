@@ -2,8 +2,8 @@ import { z } from "zod";
 import { prisma } from "../../db";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 import jwt from "jsonwebtoken";
+import { formatName } from "../../../utils/functions";
 const secret = "minesupersecretkey";
-
 
 export const dbRouter = createTRPCRouter({
   getPerson: publicProcedure.input(z.number()).mutation(async (input) => {
@@ -50,7 +50,7 @@ export const dbRouter = createTRPCRouter({
         mother_id: z.number(),
         father_id: z.number(),
         token: z.string(),
-        description: z.string().nullish()
+        description: z.string().nullish(),
       })
     )
     .mutation(async (input) => {
@@ -60,12 +60,15 @@ export const dbRouter = createTRPCRouter({
           throw new Error("not logged in");
         }
       });
+      const birthName = input.input.birth_surname
+        ? input.input.birth_surname
+        : null;
       const response = await prisma.person.create({
         data: {
           year_of_death: input.input.year_of_death,
           birth_place: input.input.birth_place,
-          surname: input.input.surname,
-          birth_surname: input.input.birth_surname,
+          surname: formatName(input.input.surname),
+          birth_surname: birthName,
           year_of_birth: input.input.year_of_birth,
           name: input.input.name,
           mother_id: input.input.mother_id,
@@ -101,19 +104,22 @@ export const dbRouter = createTRPCRouter({
         mother_id: z.number(),
         father_id: z.number(),
         token: z.string(),
-        description: z.string().nullish()
+        description: z.string().nullish(),
       })
     )
     .mutation(async (input) => {
+      const birthName = input.input.birth_surname
+      ? input.input.birth_surname
+      : null;
       const data = {
         birth_place: input.input.birth_place,
-        birth_surname: input.input.birth_surname,
+        birth_surname: birthName,
         year_of_birth: input.input.year_of_birth,
         mother_id: input.input.mother_id,
         father_id: input.input.father_id,
-        name: input.input.name,
-        surname: input.input.surname,
-        description: input.input.description
+        name: formatName(input.input.name),
+        surname: formatName(input.input.surname),
+        description: input.input.description,
       };
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unused-vars
       jwt.verify(input.input.token, secret, (err, _) => {
@@ -131,19 +137,29 @@ export const dbRouter = createTRPCRouter({
     .input(z.string().nullish())
     .mutation(async (input) => {
       if (input.input) {
-        const response = await prisma.person.findMany({ where: { surname: input.input }, select: { name: true, surname: true, year_of_birth: true, id: true } })
-        return response
+        const name = formatName(input.input);
+        const response = await prisma.person.findMany({
+          where: { surname: name },
+          select: { name: true, surname: true, year_of_birth: true, id: true },
+        });
+        return response;
       }
-      const response = await prisma.person.findMany({ where: { year_of_birth: { gt: 1960 } }, select: { name: true, surname: true, year_of_birth: true, id: true } });
+      const response = await prisma.person.findMany({
+        where: { year_of_birth: { gt: 1960 } },
+        select: { name: true, surname: true, year_of_birth: true, id: true },
+      });
       return response;
     }),
   uploadImage: publicProcedure
-    .input(z.object({  filePath: z.string(), id: z.number() }))
+    .input(z.object({ filePath: z.string(), id: z.number() }))
     .mutation(async (input) => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       //const path = await uploadImage(file,input.input.name)
-      const data = { image: input.input.filePath }
-      const response = await prisma.person.update({ where: { id: input.input.id }, data })
-      return response
-    })
+      const data = { image: input.input.filePath };
+      const response = await prisma.person.update({
+        where: { id: input.input.id },
+        data,
+      });
+      return response;
+    }),
 });
