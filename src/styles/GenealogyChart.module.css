@@ -4,6 +4,7 @@
   display: grid;
   grid-template-columns: fit-content fit-content;
   grid-template-rows: fit-content fit-content;
+  font-family: 'Aclonica';
 }
 .detail {
   width: fit-content;
@@ -14,6 +15,7 @@
   margin-left: 20px;
   margin-right: 20px;
   cursor: pointer;
+  font-family: 'Aclonica';
 }
 .button {
   height: 20px;

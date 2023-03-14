@@ -5,4 +5,5 @@
     grid-template-columns: 1fr 1fr;
     gap: 5px;
     height: fit-content;
+    font-family: 'Aclonica';
 }

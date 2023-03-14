@@ -52,10 +52,13 @@
     background-position: center;
     height: 100vh;
     padding: 20px;
-    padding-top: 6vh;
+    padding-top: 10vh;
+    padding-left: 10vw;
+    padding-right: 10vw;
     grid-auto-flow: column;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: repeat(20, 1fr);
+    font-family: 'Aclonica';
 }
 .indexDetail{
     width: 250px;
@@ -82,7 +85,19 @@
     padding: 2px;
     padding-left: 5px;
     padding-right: 5px;
+    font-family: 'Aclonica';
 }
 .buttons :disabled{
     background-color: grey;
+}
+.indexContent{
+    background-image: url('/parchment.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    padding: 20px;
+    padding-top: 10vh;
+    padding-left: 10vw;
+    padding-right: 10vw;
+    font-family: 'Aclonica';
 }

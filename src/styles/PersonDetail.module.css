@@ -4,7 +4,10 @@
     right: 0vw;
     height: calc(100vh - 40px);
     width: 200px;
-    background-color: bisque;
+    background-color: transparent;
+    backdrop-filter: blur(20px);
+    border: 1px solid gray;
     padding: 10px;
     padding-top: 20px;
+    font-family: 'Aclonica';
 }
