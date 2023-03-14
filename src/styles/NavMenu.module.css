@@ -1,17 +1,34 @@
-.navigation{
-    position: absolute;
-    top: 0%;
-    left: 0%;
-    width: 100vw;
-    height: 40px;
-    padding: 5px;
-    background-color: darkslategrey;
-    margin-bottom: 10px;
-    color: goldenrod;
-    display: flex;
+.navigation {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 100vw;
+  height: 40px;
+  padding: 5px;
+  background-color: #454545;
+  margin-bottom: 10px;
+  color: goldenrod;
+  display: flex;
+  justify-content: flex-start;
+  font-family: 'Aclonica';
 }
-.linkItem{
-    margin-left: 10px;
-    margin-right: 10px;
-    height: 20px;
+.linkItem {
+  margin-left: 10px;
+  margin-right: 10px;
+  height: 20px;
+}
+.dropDownMenu {
+  position: absolute;
+  left: 92vw;
+  height: fit-content;
+  z-index: 1;
+}
+.dropDownMenu *{
+    background-color: #454545;
+    height: fit-content;
+    margin-bottom: 5px;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 2px;
 }
