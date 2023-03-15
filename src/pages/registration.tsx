@@ -1,9 +1,23 @@
 import Head from "next/head";
-import React, { useRef } from "react";
+import React, { useRef,useState,useEffect } from "react";
 import NavMenu from "../components/NavMenu";
 import { api } from "../utils/api";
 
 const Registration = () => {
+  const [translatedContent, setTranslatedContent] = useState<{
+    username: string;
+    password: string;
+    confirm_password:string;
+    registration_button: string;
+    succes:string;
+  }>({
+    username: "Uživatelské jméno :",
+    password: "Heslo :",
+    confirm_password:'Potvrdit heslo :',
+    registration_button: "Přihlásit",
+    succes:'Registrace úspěšná, potvrzovací email byl odeslán.',
+  });
+  const [language, setLanguage] = useState<string>("cz");
   const username = useRef<HTMLInputElement>(null);
   const email = useRef<HTMLInputElement>(null);
   const password = useRef<HTMLInputElement>(null);
@@ -26,33 +40,56 @@ const Registration = () => {
   if (reg.isError) {
     alert(reg.error.message);
   }
+  useEffect(()=>{
+    switch (language) {
+      case 'cz':
+        setTranslatedContent({
+          username: "Uživatelské jméno :",
+          password: "Heslo :",
+          registration_button: "Registrovat se",
+          confirm_password: 'Potvrdit heslo :',
+          succes:'Registrace úspěšná, potvrzovací email byl odeslán.',
+        })
+        break;
+    
+      case 'en':
+        setTranslatedContent({
+          username: "Username :",
+          password: "Password :",
+          registration_button: "Sign up",
+          confirm_password:'Confirm password :',
+          succes:'Registration succesfull, verification email has been sent.',
+        })
+        break;
+    }
+  },[language])
   return (
     <>
       <Head>
         <title>Herytage</title>
         <meta name="description" content="heritage of Petr Herynek" />
       </Head>
-      <NavMenu />
+      <NavMenu  mainContentLanguage={(x: string) => setLanguage(x)} />
       <div className="registration">
-        {!reg.isSuccess && (<> <div>username :</div>
+        {!reg.isSuccess && (<> <div>{translatedContent.username}</div>
           <input className="border" ref={username} type="text" />
           <br />
-          <div>email :</div>
+          <div>Email :</div>
           <input type="email" className="border" ref={email} />
           <br />
-          <div>password :</div>
+          <div>{translatedContent.password}</div>
           <input className="border" ref={password} type="password" />
           <br />
-          <div>confirm password : </div>
+          <div>{translatedContent.confirm_password}</div>
           <input className="border" ref={confirmed_password} type="password" />
           <br />
           <button
             onClick={register}
-            className="w-16 rounded-xl border border-black bg-blue-300"
+            className="w-28 rounded-xl border border-black bg-blue-300"
           >
-            register
+            {translatedContent.registration_button}
           </button></>)}
-        {reg.isSuccess && (<div>Registration succesfull, verification email sent.</div>)}
+        {reg.isSuccess && (<div>{translatedContent.succes}</div>)}
       </div>
     </>
   );

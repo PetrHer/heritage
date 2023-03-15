@@ -1,17 +1,42 @@
 import Head from "next/head";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import NavMenu from "../components/NavMenu";
 
 const Index = () => {
+  const [translatedContent, setTranslatedContent] = useState<{
+    header: string;
+  }>({ header: "Vítejte" });
+  const [language, setLanguage] = useState<string>("cz");
+
+  useEffect(() => {
+    const lang = sessionStorage.getItem("lang");
+    if (lang) {
+      setLanguage(lang);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    switch (language) {
+      case "cz":
+        setTranslatedContent({ header: "Vítejte" });
+        break;
+
+      case "en":
+        setTranslatedContent({ header: "Welcome" });
+        break;
+    }
+  }, [language]);
+
   return (
     <>
       <Head>
         <title>Herytage</title>
         <meta name="description" content="heritage of Petr Herynek" />
       </Head>
-      <NavMenu />
+      <NavMenu mainContentLanguage={(x: string) => setLanguage(x)} />
       <main className="indexContent">
-        <h1 className="text-3xl">Welcome</h1>
+        <h1 className="text-3xl">{translatedContent.header} </h1>
         <div>
           Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean id
           metus id velit ullamcorper pulvinar. Mauris dictum facilisis augue.

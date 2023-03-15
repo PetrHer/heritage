@@ -47,8 +47,6 @@ const Home: NextPage = () => {
             buttonSearch:'Hledat'
           })
           break;
-      default:
-        break;
     }
   },[language])
   const searchBySurname = () => {

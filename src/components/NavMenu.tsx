@@ -3,10 +3,14 @@ import { useEffect, useState } from "react";
 import styles from "../styles/NavMenu.module.css";
 import { api } from "../utils/api";
 import Image from "next/image";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-const NavMenu = ({mainContentLanguage=()=>{}}:{mainContentLanguage:(arg:string)=>void}) => {
+const NavMenu = ({
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  mainContentLanguage = () => {},
+}: {
+  mainContentLanguage: (arg: string) => void;
+}) => {
   const [selected, setSelected] = useState<boolean>(false);
   const [priv, setPriv] = useState<boolean>(false);
   const [showMenu, setShowMenu] = useState<boolean>(false);
@@ -21,17 +25,17 @@ const NavMenu = ({mainContentLanguage=()=>{}}:{mainContentLanguage:(arg:string)=
     login: string;
     registration: string;
     signout: string;
-    image:string;
+    image: string;
   }>({
     home: "ÚVOD",
     list: "SEZNAM",
     genealogy: "RODOKMEN",
     detail: "ÚDAJE",
     records: "ZÁZNAMY",
-    login: "PŘIHLÁSIT",
+    login: "PŘIHLÁŠENÍ",
     registration: "REGISTRACE",
     signout: "Odhlásit",
-    image:'/czech.png'
+    image: "/czech.png",
   });
   const logout = () => {
     localStorage.removeItem("token");
@@ -49,9 +53,9 @@ const NavMenu = ({mainContentLanguage=()=>{}}:{mainContentLanguage:(arg:string)=
     if (token) {
       verification.mutate(token);
     }
-    const lang = sessionStorage.getItem('lang')
-    if (lang){
-      setLanguage(lang)
+    const lang = sessionStorage.getItem("lang");
+    if (lang) {
+      setLanguage(lang);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -79,7 +83,7 @@ const NavMenu = ({mainContentLanguage=()=>{}}:{mainContentLanguage:(arg:string)=
           login: "SIGN IN",
           registration: "REGISTRATION",
           signout: "SIGN OUT",
-          image:'/english.png'
+          image: "/english.png",
         });
         break;
       case "cz":
@@ -92,7 +96,7 @@ const NavMenu = ({mainContentLanguage=()=>{}}:{mainContentLanguage:(arg:string)=
           login: "PŘIHLÁSIT",
           registration: "REGISTRACE",
           signout: "Odhlásit",
-          image:'/czech.png'
+          image: "/czech.png",
         });
         break;
       default:
@@ -103,7 +107,7 @@ const NavMenu = ({mainContentLanguage=()=>{}}:{mainContentLanguage:(arg:string)=
   const selectLanguage = (lang: string) => {
     setLanguage(lang);
     sessionStorage.setItem("lang", lang);
-    mainContentLanguage(lang)
+    mainContentLanguage(lang);
   };
 
   return (
@@ -158,11 +162,16 @@ const NavMenu = ({mainContentLanguage=()=>{}}:{mainContentLanguage:(arg:string)=
             )}
           </div>
         )}
-        <div
+        <div className={styles.languages}
           onMouseEnter={() => setShowLang(true)}
           onMouseLeave={() => setShowLang(false)}
         >
-          <Image src={translatedContent.image} alt={""} width={20} height={20} />
+          <Image
+            src={translatedContent.image}
+            alt={""}
+            width={20}
+            height={20}
+          />
           {showLang && (
             <>
               <Image
@@ -171,6 +180,7 @@ const NavMenu = ({mainContentLanguage=()=>{}}:{mainContentLanguage:(arg:string)=
                 width={20}
                 height={20}
                 onClick={() => selectLanguage("cz")}
+                className='my-1'
               />
               <Image
                 src={"/english.png"}
@@ -178,6 +188,7 @@ const NavMenu = ({mainContentLanguage=()=>{}}:{mainContentLanguage:(arg:string)=
                 width={20}
                 height={20}
                 onClick={() => selectLanguage("en")}
+                className='my-1'
               />
             </>
           )}
@@ -191,11 +202,9 @@ export default NavMenu;
 
 NavMenu.defaultProps = {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  mainContentLanguage:()=>{},
-
-}
+  mainContentLanguage: () => {},
+};
 NavMenu.propTypes = {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-  mainContentLanguage:PropTypes.func,
-
-}
+  mainContentLanguage: PropTypes.func,
+};
