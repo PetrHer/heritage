@@ -11,6 +11,7 @@
   display: flex;
   justify-content: flex-start;
   font-family: 'Aclonica';
+  z-index: 1;
 }
 .linkItem {
   margin-left: 10px;
@@ -19,7 +20,7 @@
 }
 .dropDownMenu {
   position: absolute;
-  left: 92vw;
+  left: calc(100vw - 150px);
   height: fit-content;
   z-index: 1;
 }

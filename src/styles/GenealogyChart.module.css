@@ -1,5 +1,5 @@
 .content {
-  width: fit-content;
+  min-width: 350px;
   height: fit-content;
   display: grid;
   grid-template-columns: fit-content fit-content;
@@ -16,6 +16,7 @@
   margin-right: 20px;
   cursor: pointer;
   font-family: 'Aclonica';
+  position: relative;
 }
 .button {
   height: 20px;
@@ -24,17 +25,24 @@
 }
 .buttonContainer {
   display: flex;
-  padding-left: 45%;
+  padding-left: 40%;
 }
 .buttonPlus{
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   background-image: url('/plus.png');
   background-size: contain;
 }
 .buttonMinus{
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   background-image: url('/minus.png');
   background-size: contain;
+}
+.siblingContainer{
+  position: relative;
+  grid-column-start: 2;
+  grid-column-end: 3;
+  display: flex;
+  align-items: center;
 }
