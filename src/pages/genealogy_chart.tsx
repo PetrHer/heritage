@@ -39,7 +39,7 @@ const PersonId = () => {
   }, [language]);
 
   return (
-    <div>
+    <div >
       <Head>
         <title>Herytage</title>
         <meta name="description" content="heritage of Petr Herynek" />

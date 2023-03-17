@@ -76,40 +76,40 @@ const GenealogyChart = ({
   return (
     <div className="parent">
       <div className={style.content}>
-        <div className="col-start-1 col-end-3 flex items-center justify-center">
-          {childrenDB.data &&
-            childrenDB.data.length > 0 &&
-            !displayChildren &&
-            id == person.id && (
-              <button
-                className={style.buttonPlus}
-                onClick={() => setDisplayChildren(true)}
-              ></button>
-            )}
-          {childrenDB.data &&
-            childrenDB.data.length > 0 &&
-            id == person.id &&
-            displayChildren && (
-              <>
+        {id == person.id && (
+          <div className="col-start-1 col-end-3 flex items-center justify-center">
+            {childrenDB.data &&
+              childrenDB.data.length > 0 &&
+              !displayChildren && (
                 <button
-                  className={style.buttonMinus}
-                  onClick={() => setDisplayChildren(false)}
+                  className={style.buttonPlus}
+                  onClick={() => setDisplayChildren(true)}
                 ></button>
-                {
-                  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-                  childrenDB.data.map((e: Person) => (
-                    <div
-                      key={e.id}
-                      onClick={() => changeId(e.id)}
-                      className={style.detail}
-                    >
-                      {e.name} {e.surname}
-                    </div>
-                  ))
-                }
-              </>
-            )}
-        </div>
+              )}
+            {childrenDB.data &&
+              childrenDB.data.length > 0 &&
+              displayChildren && (
+                <>
+                  <button
+                    className={style.buttonMinus}
+                    onClick={() => setDisplayChildren(false)}
+                  ></button>
+                  {
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+                    childrenDB.data.map((e: Person) => (
+                      <div
+                        key={e.id}
+                        onClick={() => changeId(e.id)}
+                        className={style.detail}
+                      >
+                        {e.name} {e.surname}
+                      </div>
+                    ))
+                  }
+                </>
+              )}
+          </div>
+        )}
         <div onClick={() => changeId(person.id)} className={style.detail}>
           <div>ID : {person.id}</div>
           <div>
@@ -122,38 +122,35 @@ const GenealogyChart = ({
             {translatedContent.birth_place} {person.birth_place}
           </div>
         </div>
-        <div className="col-start-2 col-end-3 flex items-center">
-          {!displaySiblings &&
-            id == person.id &&
-            siblings.data &&
-            siblings.data.length > 0 && (
+        {id == person.id && (
+                      <div className={style.siblingContainer}>
+          
+            {!displaySiblings && siblings.data && siblings.data.length > 0 && (
               <button
                 className={style.buttonPlus}
                 onClick={() => siblingVisibility(true)}
               ></button>
             )}
-          {displaySiblings &&
-            id == person.id &&
-            siblings.data &&
-            siblings.data.length > 0 && (
+            {displaySiblings && siblings.data && siblings.data.length > 0 && (
               <button
                 className={style.buttonMinus}
                 onClick={() => siblingVisibility(false)}
               ></button>
             )}
-          {siblings.data &&
-            displaySiblings &&
-            id == person.id &&
-            siblings.data.map((e: Person) => (
-              <div
-                key={e.id}
-                onClick={() => changeId(e.id)}
-                className={style.detail}
-              >
-                {e.name} {e.surname}
-              </div>
-            ))}
-        </div>
+
+              {siblings.data &&
+                displaySiblings &&
+                siblings.data.map((e: Person) => (
+                  <div
+                    key={e.id}
+                    onClick={() => changeId(e.id)}
+                    className={style.detail}
+                  >
+                    {e.name} {e.surname}
+                  </div>
+                ))}
+            </div>
+        )}
         <div className={style.buttonContainer}>
           {parents && (
             <button
@@ -170,7 +167,7 @@ const GenealogyChart = ({
         </div>
       </div>
       {parents && (
-        <div className="flex h-full justify-items-start">
+        <div className="float-left flex h-full">
           {motherDB.isSuccess && motherDB.data && (
             <GenealogyChart
               language={language}
