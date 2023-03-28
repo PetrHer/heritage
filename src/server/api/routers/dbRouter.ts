@@ -134,15 +134,23 @@ export const dbRouter = createTRPCRouter({
       return response;
     }),
   getAll: publicProcedure
-    .input(z.string().nullish())
+    .input(z.object({surname:z.string().nullish(),initials:z.string().nullish()}))
     .mutation(async (input) => {
-      if (input.input) {
-        const name = formatName(input.input);
+      if (input.input.surname) {
+        const name = formatName(input.input.surname);
         const response = await prisma.person.findMany({
           where: { surname: name },
           select: { name: true, surname: true, year_of_birth: true, id: true },
         });
         return response;
+      }
+      if (input.input.initials){
+        const myArr = input.input.initials.split('')
+        const data = await prisma.person.findMany({
+          select: { name: true, surname: true, year_of_birth: true, id: true },
+        });
+        const response = data.filter(x=>x.surname[0] && myArr.includes(x.surname[0]))
+        return response
       }
       const response = await prisma.person.findMany({
         where: { year_of_birth: { gt: 1960 } },
