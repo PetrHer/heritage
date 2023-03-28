@@ -11,10 +11,6 @@ export const uploadImage = async (file: File,name:string) => {
     cacheControl: '3600',
     upsert: true
   })
-  //await client.storage.createSignedUrl(
-    //`${directory}/${file.name}`,
-    //60 // expiry time in seconds
-  //);
 
 if (error) {
     console.error(error);
@@ -22,16 +18,4 @@ if (error) {
   }
 const res = client.storage.from('herytage').getPublicUrl(data.path)
 return res
-  //const { signedURL, publicURL } = data;
-
-  // Upload the file using the signed URL
-//   await fetch(data, {
-//     method: 'PUT',
-//     body: file,
-//     headers: {
-//       'Content-Type': file.type,
-//     },
-//   });
-
-  //console.log(`Image uploaded to ${publicURL}`);
 };

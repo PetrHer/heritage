@@ -92,7 +92,6 @@ export const authRouter = createTRPCRouter({
     .input(z.string())
     .mutation(async (input) => {
       const currentTime = new Date()
-      console.log(input.input)
       const accountToVerify = await prisma.verificationToken.findFirstOrThrow({ where: { token: input.input } })
       if (!accountToVerify) { throw new Error('invalid token') }
       if (currentTime > accountToVerify.expires) { throw new Error('toked expired') }
@@ -104,7 +103,6 @@ export const authRouter = createTRPCRouter({
     privilegeCheck:publicProcedure
       .input(z.string())
       .mutation(async(input)=>{
-        console.log(input.input)
           const privileges = await prisma.userLogin.findFirstOrThrow({where:{username:input.input},select:{privileges:true}})
           return {privileges:privileges}
       })
