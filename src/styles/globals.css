@@ -57,10 +57,11 @@
     padding-right: 10vw;
     grid-auto-flow: column;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: repeat(20, 1fr);
+    grid-template-rows: repeat(15, 1fr);
     font-family: 'Aclonica';
 }
 .indexDetail{
+    height: 30px;
     width: 250px;
     border: black solid;
     margin: 5px;
