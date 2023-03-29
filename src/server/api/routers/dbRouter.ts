@@ -6,9 +6,9 @@ import { formatName } from "../../../utils/functions";
 const secret = "minesupersecretkey";
 
 export const dbRouter = createTRPCRouter({
-  getPerson: publicProcedure.input(z.number()).mutation(async (input) => {
-    const response = await prisma.person.findFirstOrThrow({
-      where: { id: input.input },
+  getPerson: publicProcedure.input(z.number()).mutation(async ({ctx,input}) => {
+    const response = await ctx.prisma.person.findFirstOrThrow({
+      where: { id: input },
     });
     return response;
   }),
@@ -20,20 +20,20 @@ export const dbRouter = createTRPCRouter({
         personId: z.number(),
       })
     )
-    .mutation(async (input) => {
-      const response = await prisma.person.findMany({
+    .mutation(async ({ctx,input}) => {
+      const response = await ctx.prisma.person.findMany({
         where: {
-          mother_id: input.input.motherId,
-          father_id: input.input.fatherId,
-          NOT: { id: input.input.personId },
+          mother_id: input.motherId,
+          father_id: input.fatherId,
+          NOT: { id: input.personId },
         },
       });
       return response;
     }),
-  getChildren: publicProcedure.input(z.number()).mutation(async (input) => {
-    const response = await prisma.person.findMany({
+  getChildren: publicProcedure.input(z.number()).mutation(async ({ctx,input}) => {
+    const response = await ctx.prisma.person.findMany({
       where: {
-        OR: [{ mother_id: input.input }, { father_id: input.input }],
+        OR: [{ mother_id: input }, { father_id: input }],
       },
     });
     return response;
@@ -53,41 +53,41 @@ export const dbRouter = createTRPCRouter({
         description: z.string().nullish(),
       })
     )
-    .mutation(async (input) => {
+    .mutation(async ({ctx,input}) => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unused-vars
-      jwt.verify(input.input.token, secret, (err, _) => {
+      jwt.verify(input.token, secret, (err, _) => {
         if (err) {
           throw new Error("not logged in");
         }
       });
-      const birthName = input.input.birth_surname
-        ? input.input.birth_surname
+      const birthName = input.birth_surname
+        ? input.birth_surname
         : null;
-      const response = await prisma.person.create({
+      const response = await ctx.prisma.person.create({
         data: {
-          year_of_death: input.input.year_of_death,
-          birth_place: input.input.birth_place,
-          surname: formatName(input.input.surname),
+          year_of_death: input.year_of_death,
+          birth_place: input.birth_place,
+          surname: formatName(input.surname),
           birth_surname: birthName,
-          year_of_birth: input.input.year_of_birth,
-          name: input.input.name,
-          mother_id: input.input.mother_id,
-          father_id: input.input.father_id,
+          year_of_birth: input.year_of_birth,
+          name: input.name,
+          mother_id: input.mother_id,
+          father_id: input.father_id,
         },
       });
       return response;
     }),
   deletePerson: publicProcedure
     .input(z.object({ id: z.number(), token: z.string() }))
-    .mutation(async (input) => {
+    .mutation(async ({ctx,input}) => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unused-vars
-      jwt.verify(input.input.token, secret, (err, _) => {
+      jwt.verify(input.token, secret, (err, _) => {
         if (err) {
           throw new Error("not logged in");
         }
       });
-      const response = await prisma.person.delete({
-        where: { id: input.input.id },
+      const response = await ctx.prisma.person.delete({
+        where: { id: input.id },
       });
       return response;
     }),
@@ -107,52 +107,52 @@ export const dbRouter = createTRPCRouter({
         description: z.string().nullish(),
       })
     )
-    .mutation(async (input) => {
-      const birthName = input.input.birth_surname
-      ? input.input.birth_surname
+    .mutation(async ({ctx,input}) => {
+      const birthName = input.birth_surname
+      ? input.birth_surname
       : null;
       const data = {
-        birth_place: input.input.birth_place,
+        birth_place: input.birth_place,
         birth_surname: birthName,
-        year_of_birth: input.input.year_of_birth,
-        mother_id: input.input.mother_id,
-        father_id: input.input.father_id,
-        name: formatName(input.input.name),
-        surname: formatName(input.input.surname),
-        description: input.input.description,
+        year_of_birth: input.year_of_birth,
+        mother_id: input.mother_id,
+        father_id: input.father_id,
+        name: formatName(input.name),
+        surname: formatName(input.surname),
+        description: input.description,
       };
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unused-vars
-      jwt.verify(input.input.token, secret, (err, _) => {
+      jwt.verify(input.token, secret, (err, _) => {
         if (err) {
           throw new Error("not logged in");
         }
       });
-      const response = await prisma.person.update({
-        where: { id: input.input.id },
+      const response = await ctx.prisma.person.update({
+        where: { id: input.id },
         data,
       });
       return response;
     }),
   getAll: publicProcedure
     .input(z.object({surname:z.string().nullish(),initials:z.string().nullish()}))
-    .mutation(async (input) => {
-      if (input.input.surname) {
-        const name = formatName(input.input.surname);
-        const response = await prisma.person.findMany({
+    .mutation(async ({ctx,input}) => {
+      if (input.surname) {
+        const name = formatName(input.surname);
+        const response = await ctx.prisma.person.findMany({
           where: { surname: name },
           select: { name: true, surname: true, year_of_birth: true, id: true },
         });
         return response;
       }
-      if (input.input.initials){
-        const myArr = input.input.initials.split('')
-        const data = await prisma.person.findMany({
+      if (input.initials){
+        const myArr = input.initials.split('')
+        const data = await ctx.prisma.person.findMany({
           select: { name: true, surname: true, year_of_birth: true, id: true },
         });
         const response = data.filter(x=>x.surname[0] && myArr.includes(x.surname[0]))
         return response
       }
-      const response = await prisma.person.findMany({
+      const response = await ctx.prisma.person.findMany({
         where: { year_of_birth: { gt: 1960 } },
         select: { name: true, surname: true, year_of_birth: true, id: true },
       });
