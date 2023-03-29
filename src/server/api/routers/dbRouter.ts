@@ -6,9 +6,9 @@ import { formatName } from "../../../utils/functions";
 const secret = "minesupersecretkey";
 
 export const dbRouter = createTRPCRouter({
-  getPerson: publicProcedure.input(z.number()).mutation(async (input) => {
-    const response = await prisma.person.findFirstOrThrow({
-      where: { id: input.input },
+  getPerson: publicProcedure.input(z.number()).mutation(async ({ctx,input}) => {
+    const response = await ctx.prisma.person.findFirstOrThrow({
+      where: { id: input },
     });
     return response;
   }),
@@ -135,24 +135,24 @@ export const dbRouter = createTRPCRouter({
     }),
   getAll: publicProcedure
     .input(z.object({surname:z.string().nullish(),initials:z.string().nullish()}))
-    .mutation(async (input) => {
-      if (input.input.surname) {
-        const name = formatName(input.input.surname);
-        const response = await prisma.person.findMany({
+    .mutation(async ({ctx,input}) => {
+      if (input.surname) {
+        const name = formatName(input.surname);
+        const response = await ctx.prisma.person.findMany({
           where: { surname: name },
           select: { name: true, surname: true, year_of_birth: true, id: true },
         });
         return response;
       }
-      if (input.input.initials){
-        const myArr = input.input.initials.split('')
-        const data = await prisma.person.findMany({
+      if (input.initials){
+        const myArr = input.initials.split('')
+        const data = await ctx.prisma.person.findMany({
           select: { name: true, surname: true, year_of_birth: true, id: true },
         });
         const response = data.filter(x=>x.surname[0] && myArr.includes(x.surname[0]))
         return response
       }
-      const response = await prisma.person.findMany({
+      const response = await ctx.prisma.person.findMany({
         where: { year_of_birth: { gt: 1960 } },
         select: { name: true, surname: true, year_of_birth: true, id: true },
       });
