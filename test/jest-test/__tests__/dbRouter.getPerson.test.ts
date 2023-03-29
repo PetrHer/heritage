@@ -1,10 +1,9 @@
 import { test, expect } from "@jest/globals";
-import { AppRouter, appRouter } from "../../../src/server/api/root";
-import { prisma } from "../../../src/server/db";
-import { type } from "os";
-import { inferProcedureInput } from "@trpc/server";
+import type { AppRouter} from "../../../src/server/api/root";
+import { appRouter } from "../../../src/server/api/root";
+import type { inferProcedureInput } from "@trpc/server";
 import { prismaMock } from "../../../singleton";
-import { Person } from "@prisma/client";
+import type { Person } from "@prisma/client";
 
 test("getPerson id 1", async () => {
   const mockResponse: Person = {
