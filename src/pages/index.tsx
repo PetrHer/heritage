@@ -5,7 +5,13 @@ import NavMenu from "../components/NavMenu";
 const Index = () => {
   const [translatedContent, setTranslatedContent] = useState<{
     header: string;
-  }>({ header: "Vítejte" });
+    mainContent:string;
+  }>({ header: "Vítejte",
+  mainContent:`Vítejte v mém projektu rodokmenu, inspirovaném zájmem mé matky o mapování naší rodinné historie. 
+  Tato webová stránka je poctou za její neúnavné úsilí o odhalení příběhů našich předků a zachování jejich odkazu pro budoucí generace. 
+  Jak pracuji na tomto projektu, neustále mě ohromuje hloubka a složitost našeho rodokmenu a mnoho fascinujících postav, které ho obývají. 
+  Doufám, že tím, že budu sdílet historii naší rodiny tímto způsobem, budu moci uctít lásku mé matky k genealogii a inspirovat další, aby prozkoumali své vlastní rodinné dějiny. 
+  Tak se mnou pojďte na tuto cestu a objevme společně skryté poklady naší minulosti.` });
   const [language, setLanguage] = useState<string>("cz");
 
   useEffect(() => {
@@ -19,11 +25,22 @@ const Index = () => {
   useEffect(() => {
     switch (language) {
       case "cz":
-        setTranslatedContent({ header: "Vítejte" });
+        setTranslatedContent({ header: "Vítejte", mainContent:`Vítejte v mém projektu Herytage, inspirovaném koníčkem mé matky o mapování naší rodinné historie. 
+        Tato webová stránka je nástroj, který má pomoci ukládat a organizovat záznamy našich předků a zachování jejich odkazu pro budoucí generace. 
+        Jak pracuji na tomto projektu, neustále mě ohromuje hloubka a složitost našeho rodokmenu a fascinující postavy v něm. 
+        Doufám, že tím, že budu sdílet historii naší rodiny tímto způsobem, inspirovuji další, aby prozkoumali své vlastní rodinné dějiny. 
+        Tak se mnou pojďte na tuto cestu a objevme společně skryté poklady naší minulosti.` });
         break;
 
       case "en":
-        setTranslatedContent({ header: "Welcome" });
+        setTranslatedContent({
+          header: "Welcome",
+          mainContent: `Welcome to my project Herytage, inspired by my mother's hobby for tracing our family history. 
+          This website is a tool to help her with her efforts to manage and save records of our ancestors, and to preserve their legacy for future generations. 
+          As I work on this project, I am continually amazed by the depth and complexity of our family tree, and the many fascinating characters who populate its branches. 
+          I hope that by sharing our family's history in this way, I can inspire others to explore their own family histories. 
+          So come along with me on this journey, and let's discover the hidden gems of our past together.`,
+        });
         break;
     }
   }, [language]);
@@ -38,24 +55,9 @@ const Index = () => {
       <main className="indexContent">
         <h1 className="text-3xl">{translatedContent.header} </h1>
         <div>
-          Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean id
-          metus id velit ullamcorper pulvinar. Mauris dictum facilisis augue.
-          Maecenas sollicitudin. Class aptent taciti sociosqu ad litora torquent
-          per conubia nostra, per inceptos hymenaeos. Pellentesque sapien.
-          Quisque tincidunt scelerisque libero. Curabitur sagittis hendrerit
-          ante. Integer in sapien. Curabitur vitae diam non enim vestibulum
-          interdum. Nulla non lectus sed nisl molestie malesuada. Aenean id
-          metus id velit ullamcorper pulvinar. Nullam feugiat, turpis at
-          pulvinar vulputate, erat libero tristique tellus, nec bibendum odio
-          risus sit amet ante. Praesent id justo in neque elementum ultrices.
-          Donec vitae arcu. Etiam egestas wisi a erat. Etiam commodo dui eget
-          wisi. Nullam at arcu a est sollicitudin euismod. Aliquam in lorem sit
-          amet leo accumsan lacinia. Morbi scelerisque luctus velit. Mauris
-          elementum mauris vitae tortor. Curabitur vitae diam non enim
-          vestibulum interdum. Morbi leo mi, nonummy eget tristique non, rhoncus
-          non leo. Proin mattis lacinia justo. Phasellus rhoncus. Duis risus.
-          Curabitur sagittis hendrerit ante. Suspendisse sagittis ultrices
-          augue.
+          {translatedContent.mainContent}
+          <br />
+          Petr Herynek
         </div>
       </main>
     </>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import styles from "../styles/NavMenu.module.css";
@@ -6,10 +7,11 @@ import Image from "next/image";
 import PropTypes from "prop-types";
 
 const NavMenu = ({
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   mainContentLanguage = () => {},
+  setPrivileges = () => {},
 }: {
   mainContentLanguage: (arg: string) => void;
+  setPrivileges:(arg:boolean)=>void;
 }) => {
   const [selected, setSelected] = useState<boolean>(false);
   const [priv, setPriv] = useState<boolean>(false);
@@ -68,6 +70,7 @@ const NavMenu = ({
   useEffect(() => {
     if (privilegesCheck.data?.privileges?.privileges) {
       setPriv(privilegesCheck.data.privileges.privileges);
+      setPrivileges(privilegesCheck.data.privileges.privileges)
     }
   }, [privilegesCheck.data]);
 
@@ -201,10 +204,11 @@ const NavMenu = ({
 export default NavMenu;
 
 NavMenu.defaultProps = {
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   mainContentLanguage: () => {},
+  setPrivileges:()=>{},
 };
 NavMenu.propTypes = {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
   mainContentLanguage: PropTypes.func,
+  setPrivileges:PropTypes.func,
 };
