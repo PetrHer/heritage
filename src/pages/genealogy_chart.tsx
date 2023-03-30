@@ -8,6 +8,7 @@ import style from "../styles/PersonDetail.module.css";
 
 const PersonId = () => {
   const [id, setId] = useState<number>();
+  const [privileges, setPrivileges] = useState<boolean>(false);
   const [translatedContent, setTranslatedContent] = useState<{
     detail_header: string;
   }>({ detail_header: "Vítejte" });
@@ -44,11 +45,11 @@ const PersonId = () => {
         <title>Herytage</title>
         <meta name="description" content="heritage of Petr Herynek" />
       </Head>
-      <NavMenu mainContentLanguage={(x: string) => setLanguage(x)} />
+      <NavMenu mainContentLanguage={(x: string) => setLanguage(x)}  setPrivileges={setPrivileges} />
       <div className="genContent ">
         <div className={style.container}>
           <h1>{translatedContent.detail_header}</h1>
-          <PersonDetail id={id} language={language} />
+          <PersonDetail id={id} language={language} privileges={privileges} setID={(x) => setId(x)}/>
         </div>
         {response.data && (
           <GenealogyChart

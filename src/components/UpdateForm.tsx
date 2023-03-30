@@ -77,7 +77,12 @@ const UpdateForm = ({ language }: { language: string }) => {
   const findPerson = () => {
     if (idInput.current?.value) search.mutate(Number(idInput.current.value));
   };
-
+  useEffect(()=>{
+    if (sessionStorage.getItem('updateID')){
+      search.mutate(Number(sessionStorage.getItem('updateID')))
+      sessionStorage.removeItem('updateID')
+    }
+  },[])
   useEffect(() => {
     if (search.data) setPersonData(search.data);
   }, [search.data]);

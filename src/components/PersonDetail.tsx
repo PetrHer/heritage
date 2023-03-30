@@ -8,11 +8,15 @@ const PersonDetail = ({
   setPhoto = () => {},
   setInfo = () => {},
   language,
+  setID,
+  privileges,
 }: {
   id: number | undefined;
   setPhoto: (arg: string) => void;
   setInfo: (arg: string) => void;
   language: string;
+  setID: (arg: number) => void;
+  privileges: boolean;
 }) => {
   const [translatedContent, setTranslatedContent] = useState<{
     name: string;
@@ -35,6 +39,7 @@ const PersonDetail = ({
     father_id: "ID otce : ",
     not_found: "Záznam nenalezen.",
   });
+
   const getPersonDetail = api.dbRouter.getPerson.useMutation();
   useEffect(() => {
     if (id) {
@@ -96,6 +101,16 @@ const PersonDetail = ({
     }
   }, [language]);
 
+  const selectPerson = (selecteId: number) => {
+    sessionStorage.setItem("id", selecteId.toString());
+    setID(selecteId);
+  };
+
+  const updatePerson = (arg: string) => {
+    sessionStorage.setItem("updateID", arg);
+    window.location.href = "/records";
+  };
+
   return (
     <>
       {verification.isSuccess && (
@@ -136,14 +151,31 @@ const PersonDetail = ({
               )}
               {getPersonDetail.data.mother_id != 0 && (
                 <div>
-                  {translatedContent.mother_id} {getPersonDetail.data.mother_id}
+                  {translatedContent.mother_id}{" "}
+                  <span
+                    className="cursor-pointer font-bold text-blue-700 underline"
+                    onClick={() => selectPerson(getPersonDetail.data.mother_id)}
+                  >
+                    {getPersonDetail.data.mother_id}
+                  </span>
                 </div>
               )}
               {getPersonDetail.data.father_id != 0 && (
                 <div>
-                  {translatedContent.father_id} {getPersonDetail.data.father_id}
+                  {translatedContent.father_id}{" "}
+                  <span
+                    className="cursor-pointer font-bold text-blue-700 underline"
+                    onClick={() => selectPerson(getPersonDetail.data.father_id)}
+                  >
+                    {getPersonDetail.data.father_id}
+                  </span>
                 </div>
               )}
+              {privileges && <button
+                onClick={() => updatePerson(getPersonDetail.data.id.toString())}
+              >
+                update
+              </button>}
             </>
           )}
         </div>

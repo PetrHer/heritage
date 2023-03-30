@@ -96,7 +96,7 @@
     padding-right: 5px;
     font-family: 'Aclonica';
 }
-.buttons :disabled{
+.buttons:disabled{
     background-color: grey;
 }
 .indexContent{
