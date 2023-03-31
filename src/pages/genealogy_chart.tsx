@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
-import NavMenu from "../components/NavMenu";
+import  { useEffect, useState } from "react";
 import GenealogyChart from "../components/GenealogyChart";
 import { api } from "../utils/api";
-import Head from "next/head";
 import PersonDetail from "../components/PersonDetail";
 import style from "../styles/PersonDetail.module.css";
+import Layout from "../components/Layout";
 
-const PersonId = () => {
+const PersonChart = () => {
   const [id, setId] = useState<number>();
   const [privileges, setPrivileges] = useState<boolean>(false);
   const [translatedContent, setTranslatedContent] = useState<{
@@ -40,27 +39,32 @@ const PersonId = () => {
   }, [language]);
 
   return (
-    <div >
-      <Head>
-        <title>Herytage</title>
-        <meta name="description" content="heritage of Petr Herynek" />
-      </Head>
-      <NavMenu mainContentLanguage={(x: string) => setLanguage(x)}  setPrivileges={setPrivileges} />
-      <div className="genContent ">
-        <div className={style.container}>
-          <h1>{translatedContent.detail_header}</h1>
-          <PersonDetail id={id} language={language} privileges={privileges} setID={(x) => setId(x)}/>
+    <Layout
+      mainContentLanguage={(x: string) => setLanguage(x)}
+      setPrivileges={setPrivileges}
+    >
+      <div>
+        <div className="genContent ">
+          <div className={style.container}>
+            <h1>{translatedContent.detail_header}</h1>
+            <PersonDetail
+              id={id}
+              language={language}
+              privileges={privileges}
+              setID={(x) => setId(x)}
+            />
+          </div>
+          {response.data && (
+            <GenealogyChart
+              language={language}
+              changeId={changeId}
+              person={response.data}
+              id={response.data.id}
+            />
+          )}
         </div>
-        {response.data && (
-          <GenealogyChart
-            language={language}
-            changeId={changeId}
-            person={response.data}
-            id={response.data.id}
-          />
-        )}
       </div>
-    </div>
+    </Layout>
   );
 };
-export default PersonId;
+export default PersonChart;

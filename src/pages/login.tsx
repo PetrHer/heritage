@@ -1,7 +1,6 @@
-import Head from "next/head";
 import React, { useRef, useState, useEffect } from "react";
-import NavMenu from "../components/NavMenu";
 import { api } from "../utils/api";
+import Layout from "../components/Layout";
 
 const Login = () => {
   const [translatedContent, setTranslatedContent] = useState<{
@@ -52,12 +51,7 @@ const Login = () => {
     }
   }, [language]);
   return (
-    <>
-      <Head>
-        <title>Herytage</title>
-        <meta name="description" content="heritage of Petr Herynek" />
-      </Head>
-      <NavMenu mainContentLanguage={(x: string) => setLanguage(x)} />
+    <Layout mainContentLanguage={(x: string) => setLanguage(x)} >
       <div className="login">
         <div>{translatedContent.username}</div>
         <input
@@ -83,7 +77,7 @@ const Login = () => {
           {translatedContent.login_button}
         </button>
       </div>
-    </>
+    </Layout>
   );
 };
 

@@ -2,13 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import { api } from "../utils/api";
 import { czechAlphabet } from "../utils/functions";
 
-const PersonSearch = ({
-  language,
-  search,
-}: {
+type PersonSearchProps = {
   language: string;
   search: (arg: string) => void;
-}) => {
+};
+
+const PersonSearch = ({ language, search }: PersonSearchProps) => {
   const [disableSearch, setDisableSearch] = useState<boolean>(true);
   const searchId = useRef<HTMLInputElement>(null);
   const [translatedContent, setTranslatedContent] = useState<{

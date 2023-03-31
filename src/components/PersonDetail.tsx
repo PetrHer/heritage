@@ -3,6 +3,15 @@ import { useEffect, useState } from "react";
 import { api } from "../utils/api";
 import PropTypes from "prop-types";
 
+type PersonDetailProps = {
+  id: number | undefined;
+  setPhoto: (arg: string) => void;
+  setInfo: (arg: string) => void;
+  language: string;
+  setID: (arg: number) => void;
+  privileges: boolean;
+};
+
 const PersonDetail = ({
   id,
   setPhoto = () => {},
@@ -10,14 +19,7 @@ const PersonDetail = ({
   language,
   setID,
   privileges,
-}: {
-  id: number | undefined;
-  setPhoto: (arg: string) => void;
-  setInfo: (arg: string) => void;
-  language: string;
-  setID: (arg: number) => void;
-  privileges: boolean;
-}) => {
+}: PersonDetailProps) => {
   const [translatedContent, setTranslatedContent] = useState<{
     name: string;
     surname: string;
@@ -171,11 +173,15 @@ const PersonDetail = ({
                   </span>
                 </div>
               )}
-              {privileges && <button
-                onClick={() => updatePerson(getPersonDetail.data.id.toString())}
-              >
-                update
-              </button>}
+              {privileges && (
+                <button
+                  onClick={() =>
+                    updatePerson(getPersonDetail.data.id.toString())
+                  }
+                  style={{ backgroundImage: `url('/edit-button.png')` }}
+                  className="h-4 w-4 bg-contain"
+                ></button>
+              )}
             </>
           )}
         </div>
