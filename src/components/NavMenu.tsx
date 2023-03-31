@@ -6,13 +6,15 @@ import { api } from "../utils/api";
 import Image from "next/image";
 import PropTypes from "prop-types";
 
+type NavMenuProps = {
+  mainContentLanguage: (arg: string) => void;
+  setPrivileges: (arg: boolean) => void;
+};
+
 const NavMenu = ({
   mainContentLanguage = () => {},
   setPrivileges = () => {},
-}: {
-  mainContentLanguage: (arg: string) => void;
-  setPrivileges:(arg:boolean)=>void;
-}) => {
+}: NavMenuProps) => {
   const [selected, setSelected] = useState<boolean>(false);
   const [priv, setPriv] = useState<boolean>(false);
   const [showMenu, setShowMenu] = useState<boolean>(false);
@@ -70,8 +72,9 @@ const NavMenu = ({
   useEffect(() => {
     if (privilegesCheck.data?.privileges?.privileges) {
       setPriv(privilegesCheck.data.privileges.privileges);
-      setPrivileges(privilegesCheck.data.privileges.privileges)
+      setPrivileges(privilegesCheck.data.privileges.privileges);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [privilegesCheck.data]);
 
   useEffect(() => {
@@ -165,7 +168,8 @@ const NavMenu = ({
             )}
           </div>
         )}
-        <div className={styles.languages}
+        <div
+          className={styles.languages}
           onMouseEnter={() => setShowLang(true)}
           onMouseLeave={() => setShowLang(false)}
         >
@@ -183,7 +187,7 @@ const NavMenu = ({
                 width={20}
                 height={20}
                 onClick={() => selectLanguage("cz")}
-                className='my-1'
+                className="my-1"
               />
               <Image
                 src={"/english.png"}
@@ -191,7 +195,7 @@ const NavMenu = ({
                 width={20}
                 height={20}
                 onClick={() => selectLanguage("en")}
-                className='my-1'
+                className="my-1"
               />
             </>
           )}
@@ -205,10 +209,10 @@ export default NavMenu;
 
 NavMenu.defaultProps = {
   mainContentLanguage: () => {},
-  setPrivileges:()=>{},
+  setPrivileges: () => {},
 };
 NavMenu.propTypes = {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
   mainContentLanguage: PropTypes.func,
-  setPrivileges:PropTypes.func,
+  setPrivileges: PropTypes.func,
 };

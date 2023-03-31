@@ -1,10 +1,8 @@
-import { type NextPage } from "next";
-import Head from "next/head";
 import { useEffect, useRef, useState } from "react";
-import NavMenu from "../components/NavMenu";
 import { api } from "../utils/api";
+import Layout from "../components/Layout";
 
-const Home: NextPage = () => {
+const List = () => {
   const getData = api.dbRouter.getAll.useMutation();
   const surname = useRef<HTMLInputElement>(null);
   const [language, setLanguage] = useState<string>("cz");
@@ -74,12 +72,9 @@ const Home: NextPage = () => {
    
   }
   return (
-    <>
-      <Head>
-        <title>Herytage</title>
-        <meta name="description" content="heritage of Petr Herynek" />
-      </Head>
-      <NavMenu mainContentLanguage={(x: string) => setLanguage(x)} />
+    <Layout
+      mainContentLanguage={(x: string) => setLanguage(x)}
+    >
       <main className="mainContent">
         {getData.data &&
           getData.data.map((e) => (
@@ -115,8 +110,8 @@ const Home: NextPage = () => {
           </div>
         </div>
       </main>
-    </>
+    </Layout>
   );
 };
 
-export default Home;
+export default List;

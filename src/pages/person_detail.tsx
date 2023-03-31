@@ -1,9 +1,8 @@
-import Head from "next/head";
 import { useEffect, useState } from "react";
-import NavMenu from "../components/NavMenu";
 import PersonDetail from "../components/PersonDetail";
 import PersonSearch from "../components/PersonSearch";
 import PersonImage from "../components/PersonImage";
+import Layout from "../components/Layout";
 
 const Detail = () => {
   const [id, setId] = useState<number>();
@@ -46,15 +45,10 @@ const Detail = () => {
     }
   }, [language]);
   return (
-    <>
-      <Head>
-        <title>Herytage</title>
-        <meta name="description" content="heritage of Petr Herynek" />
-      </Head>
-      <NavMenu
-        mainContentLanguage={(x: string) => setLanguage(x)}
-        setPrivileges={setPrivileges}
-      />
+    <Layout
+      mainContentLanguage={(x: string) => setLanguage(x)}
+      setPrivileges={setPrivileges}
+    >
       <div className="mainContent">
         {photo && id && (
           <div className="row-end-10 col-start-1 col-end-2 row-start-1 flex flex-col items-center justify-items-center">
@@ -83,7 +77,7 @@ const Detail = () => {
           <PersonSearch search={search} language={language} />
         </div>
       </div>
-    </>
+    </Layout>
   );
 };
 
