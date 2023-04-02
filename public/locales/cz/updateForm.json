@@ -13,5 +13,6 @@
     "succes": " úspěšně upraven.",
     "search_id": "ID k úpravě :",
     "search_button": "Hledat",
-    "alert": "Úspěšně upraven záznam s ID "
+    "alert": "Úspěšně upraven záznam s ID ",
+    "partner_id":"ID partnera : "
   }

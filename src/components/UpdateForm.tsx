@@ -11,13 +11,14 @@ const UpdateForm = () => {
     name: "",
     surname: "",
     birth_surname: "",
-    year_of_birth: 0,
+    year_of_birth: null,
     year_of_death: "",
     birth_place: "",
-    father_id: 0,
-    mother_id: 0,
+    father_id: null,
+    mother_id: null,
     description: "",
     image: "",
+    partner_id: null,
   });
   const { t } = useTranslation("updateForm");
   const updating = api.dbRouter.updatePerson.useMutation();
@@ -31,7 +32,8 @@ const UpdateForm = () => {
     if (
       event.target.name == "mother_id" ||
       event.target.name == "father_id" ||
-      event.target.name == "year_of_birth"
+      event.target.name == "year_of_birth" ||
+      event.target.name == "partner_id"
     ) {
       setPersonData({
         ...personData,
@@ -50,7 +52,7 @@ const UpdateForm = () => {
       search.mutate(Number(sessionStorage.getItem("updateID")));
       sessionStorage.removeItem("updateID");
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     if (search.data) setPersonData(search.data);
@@ -79,21 +81,21 @@ const UpdateForm = () => {
             name="name"
             value={personData.name}
             onChange={handleChange}
-          ></input>
+          />
           <div>{t("surname")} </div>
           <input
             className="border"
             name="surname"
             value={personData.surname}
             onChange={handleChange}
-          ></input>
+          />
           <div>{t("birth_surname")} </div>
           <input
             className="border"
             name="birth_surname"
             value={personData.birth_surname || ""}
             onChange={handleChange}
-          ></input>
+          />
           <div>{t("year_of_birth")} </div>
           <input
             className="border"
@@ -101,7 +103,7 @@ const UpdateForm = () => {
             name="year_of_birth"
             value={personData.year_of_birth || ""}
             onChange={handleChange}
-          ></input>
+          />
           <div>{t("year_of_death")} </div>
           <input
             className="border"
@@ -109,14 +111,14 @@ const UpdateForm = () => {
             name="year_of_death"
             value={personData.year_of_death || ""}
             onChange={handleChange}
-          ></input>
+          />
           <div>{t("birth_place")} </div>
           <input
             className="border"
             name="birth_place"
             value={personData.birth_place || ""}
             onChange={handleChange}
-          ></input>
+          />
           <div>{t("mother_id")} </div>
           <input
             className="border"
@@ -124,7 +126,7 @@ const UpdateForm = () => {
             name="mother_id"
             value={personData.mother_id || ""}
             onChange={handleChange}
-          ></input>
+          />
           <div>{t("father_id")} </div>
           <input
             className="border"
@@ -132,7 +134,15 @@ const UpdateForm = () => {
             name="father_id"
             value={personData.father_id || ""}
             onChange={handleChange}
-          ></input>
+          />
+          <div>{t("partner_id")} </div>
+          <input
+            className="border"
+            type="number"
+            name="partner_id"
+            value={personData.partner_id || ""}
+            onChange={handleChange}
+          />
           <div>{t("description")}</div>
           <input
             className="border"
@@ -140,7 +150,7 @@ const UpdateForm = () => {
             name="description"
             value={personData.description || ""}
             onChange={handleChange}
-          ></input>
+          />
           <button onClick={updatePersonInDB} className="buttons">
             {t("update_button")}
           </button>

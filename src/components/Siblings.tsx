@@ -28,13 +28,13 @@ const Siblings = ({ person, changeId }: SiblingsProps) => {
         <button
           className={style.buttonPlus}
           onClick={() => siblingVisibility(true)}
-        ></button>
+        />
       )}
       {displaySiblings && siblings.data && siblings.data.length > 0 && (
         <button
           className={style.buttonMinus}
           onClick={() => siblingVisibility(false)}
-        ></button>
+        />
       )}
 
       {siblings.data &&

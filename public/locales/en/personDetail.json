@@ -8,5 +8,6 @@
     "mother_id": "ID of mother : ",
     "father_id": "ID of father : ",
     "not_found": "Record not found.",
-    "children": "IDs of children : "
+    "children": "IDs of children : ",
+    "partner":"ID of partner : "
   }

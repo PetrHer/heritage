@@ -5,6 +5,7 @@ import style from "../styles/GenealogyChart.module.css";
 import Siblings from "./Siblings";
 import Children from "./Children";
 import ChartDetail from "./ChartDetail";
+import Partner from "./Partner";
 
 type GenealogyChartProps = {
   person: Person;
@@ -18,10 +19,10 @@ const GenealogyChart = ({ person, changeId, id }: GenealogyChartProps) => {
   const fatherDB = api.dbRouter.getPerson.useMutation();
 
   useEffect(() => {
-    if (!parents && person.mother_id > 0) {
+    if (!parents && person.mother_id) {
       motherDB.mutate(person.mother_id);
     }
-    if (!parents && person.father_id > 0) {
+    if (!parents && person.father_id ) {
       fatherDB.mutate(person.father_id);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -44,13 +45,16 @@ const GenealogyChart = ({ person, changeId, id }: GenealogyChartProps) => {
               className={style.buttonMinus}
             ></button>
           )}
-          {!parents && (person.father_id > 0 || person.mother_id > 0) && (
+          {!parents && (person.father_id  || person.mother_id ) && (
             <button
               onClick={() => handleClick(true)}
               className={style.buttonPlus}
             ></button>
           )}
         </div>
+        {id == person.id && person.partner_id && (
+          <Partner changeId={changeId} id={person.partner_id} />
+        )}
       </div>
       {parents && (
         <div className="float-left flex h-full">
