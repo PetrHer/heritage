@@ -1,24 +1,14 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import { api } from "../utils/api";
 import { uploadImage } from "../utils/uploader";
+import { useTranslation } from "next-i18next";
 
-type PersonImageProps = { photo: string; id: number; language: string };
+type PersonImageProps = { photo: string; id: number };
 
-const PersonImage = ({ photo, id, language }: PersonImageProps) => {
-  const [translatedContent, setTranslatedContent] = useState<{
-    change_button: string;
-    select_button: string;
-    selected: string;
-    not_selected: string;
-    upload_button: string;
-  }>({
-    change_button: "Změnit",
-    select_button: "Vybrat",
-    selected: "Soubor vybrán.",
-    not_selected: "Soubor nevybrán.",
-    upload_button: "Nahrát",
-  });
+const PersonImage = ({ photo, id }: PersonImageProps) => {
+
+  const { t } = useTranslation("personImage");
   const filePath = useRef<HTMLInputElement>(null);
   const [disableUpload, setDisableUpload] = useState<boolean>(true);
 
@@ -49,29 +39,6 @@ const PersonImage = ({ photo, id, language }: PersonImageProps) => {
       filePath.current.click();
     }
   };
-  useEffect(() => {
-    switch (language) {
-      case "cz":
-        setTranslatedContent({
-          change_button: "Změnit",
-          select_button: "Vybrat",
-          selected: "Soubor vybrán.",
-          not_selected: "Soubor nevybrán.",
-          upload_button: "Nahrát",
-        });
-        break;
-
-      case "en":
-        setTranslatedContent({
-          change_button: "Change",
-          select_button: "Select",
-          selected: "File selected.",
-          not_selected: "File not selected.",
-          upload_button: "Upload",
-        });
-        break;
-    }
-  }, [language]);
 
   return (
     <>
@@ -83,14 +50,14 @@ const PersonImage = ({ photo, id, language }: PersonImageProps) => {
         className="m-1 w-1/2"
       />
       <button className="buttons" onClick={handleClick}>
-        {translatedContent.select_button}
+        {t('select_button')}
       </button>
       <span>
         {filePath.current &&
         filePath.current.files &&
         filePath.current?.files[0]
-          ? translatedContent.selected
-          : translatedContent.not_selected}
+          ? t('selected')
+          : t('not_selected')}
       </span>
 
       <button
@@ -99,7 +66,7 @@ const PersonImage = ({ photo, id, language }: PersonImageProps) => {
         onClick={uploadPic}
         className="buttons"
       >
-        {translatedContent.change_button}
+        {t('change_button')}
       </button>
       <input
         id="files"

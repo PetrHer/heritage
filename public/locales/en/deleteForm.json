@@ -1,0 +1,11 @@
+{
+    "name": "Name :",
+    "surname": "Surname :",
+    "header": "Delete record from database",
+    "id_to_search": "ID to delete :",
+    "id": "ID :",
+    "search": "Search",
+    "year": "Year of birth :",
+    "delete": "Delete",
+    "alert": "Deleted record with ID "
+  }

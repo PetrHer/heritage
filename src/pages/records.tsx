@@ -4,28 +4,19 @@ import UpdateForm from "../components/UpdateForm";
 import { api } from "../utils/api";
 import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "next-i18next";
 
 const Records = () => {
   const verification = api.authRouter.verify.useMutation();
   const [priv, setPriv] = useState<boolean>(false);
   const privilegesCheck = api.authRouter.privilegeCheck.useMutation();
-  const [language, setLanguage] = useState<string>("cz");
-  const [translatedContent, setTranslatedContent] = useState<{
-    notLogged: string;
-    noRights: string;
-  }>({
-    notLogged: "Musíte být přihlášeni.",
-    noRights: "Nemáte oprávnění pro úpravu záznamů.",
-  });
 
+  const { t } = useTranslation("records");
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       verification.mutate(token);
-    }
-    const lang = sessionStorage.getItem("lang");
-    if (lang) {
-      setLanguage(lang);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -43,37 +34,20 @@ const Records = () => {
     }
   }, [privilegesCheck.data]);
 
-  useEffect(() => {
-    switch (language) {
-      case "cz":
-        setTranslatedContent({
-          notLogged: "Musíte být přihlášeni.",
-          noRights: "Nemáte oprávnění pro úpravu záznamů.",
-        });
-        break;
-
-      case "en":
-        setTranslatedContent({
-          notLogged: "You need to be logged in.",
-          noRights: "You don't have rights for updating records.",
-        });
-        break;
-    }
-  }, [language]);
   return (
-    <Layout mainContentLanguage={(x: string) => setLanguage(x)}>
+    <Layout>
       <div className="records">
         <div className="flex ">
-          {!verification.isSuccess && <div>{translatedContent.notLogged}</div>}
+          {!verification.isSuccess && <div>{t('notLogged')}</div>}
           {verification.isSuccess && !priv && (
-            <div>{translatedContent.noRights}</div>
+            <div>{t('noRights')}</div>
           )}
-          {verification.isSuccess && priv && <InputForm language={language} />}
+          {verification.isSuccess && priv && <InputForm />}
           <br />
-          {verification.isSuccess && priv && <DeleteForm language={language} />}
+          {verification.isSuccess && priv && <DeleteForm  />}
           <br />
           <br />
-          {verification.isSuccess && priv && <UpdateForm language={language} />}
+          {verification.isSuccess && priv && <UpdateForm />}
         </div>
       </div>
     </Layout>
@@ -81,3 +55,13 @@ const Records = () => {
 };
 
 export default Records;
+export async function getServerSideProps({ locale }: { locale: string }) {
+  return {
+    props: {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      ...(await serverSideTranslations(locale, ["records", "navmenu","inputForm","deleteForm","updateForm"])),
+      // Will be passed to the page component as props
+    },
+  };
+}
+

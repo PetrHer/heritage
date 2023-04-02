@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { api } from "../utils/api";
 import PropTypes from "prop-types";
+import { useTranslation } from "next-i18next";
 
 type PersonDetailProps = {
   id: number;
   setPhoto: (arg: string) => void;
   setInfo: (arg: string) => void;
-  language: string;
   setID: (arg: number) => void;
   privileges: boolean;
 };
@@ -17,34 +17,11 @@ const PersonDetail = ({
   id,
   setPhoto = () => {},
   setInfo = () => {},
-  language,
   setID,
   privileges,
 }: PersonDetailProps) => {
-  const [translatedContent, setTranslatedContent] = useState<{
-    name: string;
-    surname: string;
-    birth_surname: string;
-    year_of_birth: string;
-    year_of_death: string;
-    birth_place: string;
-    mother_id: string;
-    father_id: string;
-    not_found: string;
-    children: string;
-  }>({
-    name: "Jméno : ",
-    surname: "Příjmení : ",
-    birth_surname: "Rodné příjmení : ",
-    year_of_birth: "Rok narození : ",
-    year_of_death: "Rok úmrtí : ",
-    birth_place: "Místo narození : ",
-    mother_id: "ID matky : ",
-    father_id: "ID otce : ",
-    not_found: "Záznam nenalezen.",
-    children: "ID dětí : ",
-  });
 
+  const { t } = useTranslation("personDetail");
   const getPersonDetail = api.dbRouter.getPerson.useMutation();
   useEffect(() => {
     if (id) {
@@ -75,39 +52,6 @@ const PersonDetail = ({
     }
   }, [getPersonDetail.data]);
 
-  useEffect(() => {
-    switch (language) {
-      case "en":
-        setTranslatedContent({
-          name: "Name : ",
-          surname: "Surname : ",
-          birth_surname: "Birth surname : ",
-          year_of_birth: "Year of birth : ",
-          year_of_death: "Year of death : ",
-          birth_place: "Place of birth : ",
-          mother_id: "ID of mother : ",
-          father_id: "ID of father : ",
-          not_found: "Record not found.",
-          children: "IDs of children : ",
-        });
-        break;
-
-      case "cz":
-        setTranslatedContent({
-          name: "Jméno : ",
-          surname: "Příjmení : ",
-          birth_surname: "Rodné příjmení : ",
-          year_of_birth: "Rok narození : ",
-          year_of_death: "Rok úmrtí : ",
-          birth_place: "Místo narození : ",
-          mother_id: "ID matky : ",
-          father_id: "ID otce : ",
-          not_found: "Záznam nenalezen.",
-          children: "ID dětí : ",
-        });
-        break;
-    }
-  }, [language]);
 
   const selectPerson = (selecteId: number) => {
     sessionStorage.setItem("id", selecteId.toString());
@@ -126,43 +70,43 @@ const PersonDetail = ({
     <>
       {verification.isSuccess && (
         <div>
-          {getPersonDetail.isError && <div>{translatedContent.not_found} </div>}
+          {getPersonDetail.isError && <div>{t('not_found')} </div>}
           {getPersonDetail.data && (
             <>
               <div>ID : {getPersonDetail.data.id}</div>
               <div>
-                {translatedContent.name} {getPersonDetail.data.name}
+                {t('name')} {getPersonDetail.data.name}
               </div>
               <div>
-                {translatedContent.surname} {getPersonDetail.data.surname}
+                {t('surname')} {getPersonDetail.data.surname}
               </div>
               {getPersonDetail.data.year_of_birth && (
                 <div>
-                  {translatedContent.year_of_birth}{" "}
+                  {t('year_of_birth')}{" "}
                   {getPersonDetail.data.year_of_birth}
                 </div>
               )}
               {getPersonDetail.data.year_of_death && (
                 <div>
-                  {translatedContent.year_of_death}{" "}
+                  {t('year_of_death')}{" "}
                   {getPersonDetail.data.year_of_death}
                 </div>
               )}
               {getPersonDetail.data.birth_place && (
                 <div>
-                  {translatedContent.birth_place}{" "}
+                  {t('birth_place')}{" "}
                   {getPersonDetail.data.birth_place}
                 </div>
               )}
               {getPersonDetail.data.birth_surname && (
                 <div>
-                  {translatedContent.birth_surname}{" "}
+                  {t('birth_surname')}{" "}
                   {getPersonDetail.data.birth_surname}
                 </div>
               )}
               {getPersonDetail.data.mother_id != 0 && (
                 <div>
-                  {translatedContent.mother_id}{" "}
+                  {t('mother_id')}{" "}
                   <span
                     className="cursor-pointer font-bold text-blue-700 underline"
                     onClick={() => selectPerson(getPersonDetail.data.mother_id)}
@@ -173,7 +117,7 @@ const PersonDetail = ({
               )}
               {getPersonDetail.data.father_id != 0 && (
                 <div>
-                  {translatedContent.father_id}{" "}
+                  {t('father_id')}{" "}
                   <span
                     className="cursor-pointer font-bold text-blue-700 underline"
                     onClick={() => selectPerson(getPersonDetail.data.father_id)}
@@ -185,7 +129,7 @@ const PersonDetail = ({
               {getChildrenInDetail.data &&
                 getChildrenInDetail.data.length > 0 && (
                   <>
-                    <span>{translatedContent.children}</span>
+                    <span>{t('children')}</span>
                     {getChildrenInDetail.data.map((e) => (
                       <span
                         className="cursor-pointer font-bold text-blue-700 underline"

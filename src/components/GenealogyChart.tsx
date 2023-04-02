@@ -10,15 +10,9 @@ type GenealogyChartProps = {
   person: Person;
   changeId: (x: number) => void;
   id: number;
-  language: string;
 };
 
-const GenealogyChart = ({
-  person,
-  changeId,
-  id,
-  language,
-}: GenealogyChartProps) => {
+const GenealogyChart = ({ person, changeId, id }: GenealogyChartProps) => {
   const [parents, setParents] = useState(false);
   const motherDB = api.dbRouter.getPerson.useMutation();
   const fatherDB = api.dbRouter.getPerson.useMutation();
@@ -41,7 +35,7 @@ const GenealogyChart = ({
         {id == person.id && (
           <Children changeId={changeId} personId={person.id} />
         )}
-        <ChartDetail changeId={changeId} language={language} person={person} />
+        <ChartDetail changeId={changeId} person={person} />
         {id == person.id && <Siblings changeId={changeId} person={person} />}
         <div className={style.buttonContainer}>
           {parents && (
@@ -62,7 +56,6 @@ const GenealogyChart = ({
         <div className="float-left flex h-full">
           {motherDB.isSuccess && motherDB.data && (
             <GenealogyChart
-              language={language}
               changeId={changeId}
               person={motherDB.data}
               id={id}
@@ -70,7 +63,6 @@ const GenealogyChart = ({
           )}
           {fatherDB.isSuccess && fatherDB.data && (
             <GenealogyChart
-              language={language}
               changeId={changeId}
               person={fatherDB.data}
               id={id}

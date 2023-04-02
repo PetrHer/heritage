@@ -1,0 +1,17 @@
+{
+    "name": "Name :",
+    "surname": "Surname :",
+    "birth_surname": "Birth surname :",
+    "year_of_birth": "Year of birth :",
+    "year_of_death": "Year of death :",
+    "birth_place": "Place of birth :",
+    "mother_id": "ID of mother :",
+    "father_id": "ID of father :",
+    "description": "Description :",
+    "update_button": "Update",
+    "header": "Update record in database",
+    "succes": " succesfully updated.",
+    "search_id": "ID to update :",
+    "search_button": "Search",
+    "alert": "Succesfully updated record with ID "
+  }

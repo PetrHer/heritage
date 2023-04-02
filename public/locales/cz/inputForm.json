@@ -1,0 +1,14 @@
+{
+    "name": "Jméno :",
+    "surname": "Příjmení :",
+    "birth_surname":"Rodné příjmení :",
+    "year_of_birth":"Rok narození :",
+    "year_of_death":"Rok úmrtí :",
+    "birth_place":"Místo narození :",
+    "mother_id":"ID matky :",
+    "father_id":"ID otce :",
+    "description":"Popis :",
+    "create_button":"Přidat",
+    "header":"Přidání záznamu do databáze",
+    "succes":" úspěšně přidán/a do databáze s ID "
+  }
