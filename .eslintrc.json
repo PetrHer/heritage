@@ -18,5 +18,6 @@
   "extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended"],
   "rules": {
     "@typescript-eslint/consistent-type-imports": "warn"
-  }
+  },
+  "ignorePatterns": ["next-i18next.config.js","next.config.js","navmenu.js"]
 }
