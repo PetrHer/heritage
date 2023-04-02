@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-empty-function */
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -37,20 +38,17 @@ const NavMenu = ({ setPrivileges = () => {} }: NavMenuProps) => {
     if (token) {
       verification.mutate(token);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     if (verification.isSuccess) {
       privilegesCheck.mutate(verification.data as string);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [verification.data]);
   useEffect(() => {
     if (privilegesCheck.data?.privileges?.privileges) {
       setPriv(privilegesCheck.data.privileges.privileges);
       setPrivileges(privilegesCheck.data.privileges.privileges);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [privilegesCheck.data]);
 
   const selectLanguage = async(locale: string) => {

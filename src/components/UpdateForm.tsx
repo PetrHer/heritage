@@ -50,6 +50,7 @@ const UpdateForm = () => {
       search.mutate(Number(sessionStorage.getItem("updateID")));
       sessionStorage.removeItem("updateID");
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     if (search.data) setPersonData(search.data);
