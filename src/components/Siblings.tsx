@@ -10,7 +10,7 @@ const Siblings = ({ person, changeId }: SiblingsProps) => {
   const siblings = api.dbRouter.getSiblings.useMutation();
 
   useEffect(() => {
-    if (person.father_id > 0 && person.mother_id > 0) {
+    if (person.father_id && person.mother_id) {
       siblings.mutate({
         motherId: person.mother_id,
         fatherId: person.father_id,
