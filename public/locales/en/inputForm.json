@@ -10,5 +10,6 @@
     "description":"Description :",
     "create_button":"Add",
     "header":"Add record to database",
-    "succes":" succesfully added to database with ID "
+    "succes":" succesfully added to database with ID ",
+    "partner_id":"ID of partner : "
   }

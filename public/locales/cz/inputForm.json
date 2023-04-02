@@ -10,5 +10,6 @@
     "description":"Popis :",
     "create_button":"Přidat",
     "header":"Přidání záznamu do databáze",
-    "succes":" úspěšně přidán/a do databáze s ID "
+    "succes":" úspěšně přidán/a do databáze s ID ",
+    "partner_id":"ID partnera : "
   }

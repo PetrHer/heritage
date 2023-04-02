@@ -8,5 +8,6 @@
     "mother_id": "ID matky : ",
     "father_id": "ID otce : ",
     "not_found": "Záznam nenalezen.",
-    "children": "ID dětí : "
+    "children": "ID dětí : ",
+    "partner":"ID partnera : "
   }

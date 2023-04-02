@@ -5,26 +5,28 @@ import { useTranslation } from "next-i18next";
 type Character = {
   name: "";
   surname: string;
-  year_of_birth: number;
+  year_of_birth: number | undefined;
   year_of_death: string;
   birth_place: string;
   birth_surname: string;
-  father_id: number;
-  mother_id: number;
+  father_id: number | undefined;
+  mother_id: number | undefined;
   description: string;
+  partner_id: number | undefined;
 };
 
 const InputForm = () => {
   const [personData, setPersonData] = useState<Character>({
     name: "",
     surname: "",
-    year_of_birth: 0,
+    year_of_birth: undefined,
     year_of_death: "",
     birth_place: "",
     birth_surname: "",
-    father_id: 0,
-    mother_id: 0,
+    father_id: undefined,
+    mother_id: undefined,
     description: "",
+    partner_id: undefined,
   });
   const { t } = useTranslation("inputForm");
   const creation = api.dbRouter.addPerson.useMutation();
@@ -38,7 +40,8 @@ const InputForm = () => {
     if (
       event.target.name == "mother_id" ||
       event.target.name == "father_id" ||
-      event.target.name == "year_of_birth"
+      event.target.name == "year_of_birth" ||
+      event.target.name == "partner_id"
     ) {
       setPersonData({
         ...personData,
@@ -60,6 +63,7 @@ const InputForm = () => {
         father_id: 0,
         mother_id: 0,
         description: "",
+        partner_id: undefined,
       });
     }
   }, [creation.isSuccess]);
@@ -73,21 +77,21 @@ const InputForm = () => {
         name="name"
         value={personData.name}
         onChange={handleChange}
-      ></input>
+      />
       <div>{t("surname")} </div>
       <input
         className="border"
         name="surname"
         value={personData.surname}
         onChange={handleChange}
-      ></input>
+      />
       <div>{t("birth_surname")}</div>
       <input
         className="border"
         name="birth_surname"
         value={personData.birth_surname}
         onChange={handleChange}
-      ></input>
+      />
       <div>{t("year_of_birth")}</div>
       <input
         className="border"
@@ -95,7 +99,7 @@ const InputForm = () => {
         name="year_of_birth"
         value={personData.year_of_birth}
         onChange={handleChange}
-      ></input>
+      />
       <div>{t("year_of_death")} </div>
       <input
         className="border"
@@ -103,14 +107,14 @@ const InputForm = () => {
         name="year_of_death"
         value={personData.year_of_death}
         onChange={handleChange}
-      ></input>
+      />
       <div>{t("birth_place")} </div>
       <input
         className="border"
         name="birth_place"
         value={personData.birth_place}
         onChange={handleChange}
-      ></input>
+      />
       <div>{t("mother_id")} </div>
       <input
         className="border"
@@ -118,7 +122,7 @@ const InputForm = () => {
         name="mother_id"
         value={personData.mother_id}
         onChange={handleChange}
-      ></input>
+      />
       <div>{t("father_id")} </div>
       <input
         className="border"
@@ -126,7 +130,15 @@ const InputForm = () => {
         name="father_id"
         value={personData.father_id}
         onChange={handleChange}
-      ></input>
+      />
+      <div>{t("partner_id")} </div>
+      <input
+        className="border"
+        type="number"
+        name="partner_id"
+        value={personData.partner_id}
+        onChange={handleChange}
+      />
       <div>{t("description")} </div>
       <input
         className="border"
@@ -134,7 +146,7 @@ const InputForm = () => {
         name="description"
         value={personData.description}
         onChange={handleChange}
-      ></input>
+      />
       <button onClick={putPersonInDB} className="buttons">
         {t("create_button")}
       </button>

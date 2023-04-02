@@ -23,6 +23,7 @@ test('delete person', async()=>{
         image: "",
         mother_id: 0,
         year_of_death: "",
+        partner_id:null,
       };
       prismaMock.person.delete.mockResolvedValue(mockResponse);
 

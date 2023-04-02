@@ -10,7 +10,7 @@ const Siblings = ({ person, changeId }: SiblingsProps) => {
   const siblings = api.dbRouter.getSiblings.useMutation();
 
   useEffect(() => {
-    if (person.father_id > 0 && person.mother_id > 0) {
+    if (person.father_id && person.mother_id) {
       siblings.mutate({
         motherId: person.mother_id,
         fatherId: person.father_id,
@@ -28,13 +28,13 @@ const Siblings = ({ person, changeId }: SiblingsProps) => {
         <button
           className={style.buttonPlus}
           onClick={() => siblingVisibility(true)}
-        ></button>
+        />
       )}
       {displaySiblings && siblings.data && siblings.data.length > 0 && (
         <button
           className={style.buttonMinus}
           onClick={() => siblingVisibility(false)}
-        ></button>
+        />
       )}
 
       {siblings.data &&

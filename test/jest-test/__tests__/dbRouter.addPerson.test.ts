@@ -23,6 +23,7 @@ test('add person', async()=>{
         image: "",
         mother_id: 0,
         year_of_death: "",
+        partner_id:null,
       };
       const mockInput = {
         token:'blabla',
@@ -36,6 +37,7 @@ test('add person', async()=>{
         image: "",
         mother_id: 0,
         year_of_death: "",
+        partner_id:null,
       }
       prismaMock.person.create.mockResolvedValue(mockResponse);
 

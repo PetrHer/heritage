@@ -14,19 +14,23 @@ const Children = ({ personId, changeId }: ChildrenProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <div className="col-start-1 col-end-3 flex items-center justify-center">
-      {childrenDB.data && childrenDB.data.length > 0 && !displayChildren && (
-        <button
-          className={style.buttonPlus}
-          onClick={() => setDisplayChildren(true)}
-        ></button>
-      )}
-      {childrenDB.data && childrenDB.data.length > 0 && displayChildren && (
-        <>
+    <>
+      <div className={style.buttonContainerChildren}>
+        {childrenDB.data && childrenDB.data.length > 0 && !displayChildren && (
+          <button
+            className={style.buttonPlus}
+            onClick={() => setDisplayChildren(true)}
+          />
+        )}
+        {childrenDB.data && childrenDB.data.length > 0 && displayChildren && (
           <button
             className={style.buttonMinus}
             onClick={() => setDisplayChildren(false)}
-          ></button>
+          />
+        )}
+      </div>
+      {childrenDB.data && childrenDB.data.length > 0 && displayChildren && (
+        <div className={style.childrenContainer}>
           {childrenDB.data.map((e: Person) => (
             <div
               key={e.id}
@@ -36,9 +40,9 @@ const Children = ({ personId, changeId }: ChildrenProps) => {
               {e.name} {e.surname}
             </div>
           ))}
-        </>
+        </div>
       )}
-    </div>
+    </>
   );
 };
 

@@ -20,7 +20,6 @@ const PersonDetail = ({
   setID,
   privileges,
 }: PersonDetailProps) => {
-
   const { t } = useTranslation("personDetail");
   const getPersonDetail = api.dbRouter.getPerson.useMutation();
   useEffect(() => {
@@ -52,7 +51,6 @@ const PersonDetail = ({
     }
   }, [getPersonDetail.data]);
 
-
   const selectPerson = (selecteId: number) => {
     sessionStorage.setItem("id", selecteId.toString());
     setID(selecteId);
@@ -70,57 +68,59 @@ const PersonDetail = ({
     <>
       {verification.isSuccess && (
         <div>
-          {getPersonDetail.isError && <div>{t('not_found')} </div>}
+          {getPersonDetail.isError && <div>{t("not_found")} </div>}
           {getPersonDetail.data && (
             <>
               <div>ID : {getPersonDetail.data.id}</div>
               <div>
-                {t('name')} {getPersonDetail.data.name}
+                {t("name")} {getPersonDetail.data.name}
               </div>
               <div>
-                {t('surname')} {getPersonDetail.data.surname}
+                {t("surname")} {getPersonDetail.data.surname}
               </div>
               {getPersonDetail.data.year_of_birth && (
                 <div>
-                  {t('year_of_birth')}{" "}
-                  {getPersonDetail.data.year_of_birth}
+                  {t("year_of_birth")} {getPersonDetail.data.year_of_birth}
                 </div>
               )}
               {getPersonDetail.data.year_of_death && (
                 <div>
-                  {t('year_of_death')}{" "}
-                  {getPersonDetail.data.year_of_death}
+                  {t("year_of_death")} {getPersonDetail.data.year_of_death}
                 </div>
               )}
               {getPersonDetail.data.birth_place && (
                 <div>
-                  {t('birth_place')}{" "}
-                  {getPersonDetail.data.birth_place}
+                  {t("birth_place")} {getPersonDetail.data.birth_place}
                 </div>
               )}
               {getPersonDetail.data.birth_surname && (
                 <div>
-                  {t('birth_surname')}{" "}
-                  {getPersonDetail.data.birth_surname}
+                  {t("birth_surname")} {getPersonDetail.data.birth_surname}
                 </div>
               )}
               {getPersonDetail.data.mother_id != 0 && (
                 <div>
-                  {t('mother_id')}{" "}
+                  {t("mother_id")}{" "}
                   <span
                     className="cursor-pointer font-bold text-blue-700 underline"
-                    onClick={() => selectPerson(getPersonDetail.data.mother_id)}
+                    onClick={() => {
+                      if (getPersonDetail.data.mother_id)
+                        selectPerson(getPersonDetail.data.mother_id);
+                    }}
                   >
                     {getPersonDetail.data.mother_id}
                   </span>
                 </div>
               )}
-              {getPersonDetail.data.father_id != 0 && (
+              {getPersonDetail.data.father_id && (
                 <div>
-                  {t('father_id')}{" "}
+                  {t("father_id")}{" "}
                   <span
                     className="cursor-pointer font-bold text-blue-700 underline"
-                    onClick={() => selectPerson(getPersonDetail.data.father_id)}
+                    onClick={() => {
+                      if (getPersonDetail.data.father_id)
+                        selectPerson(getPersonDetail.data.father_id);
+                    }}
                   >
                     {getPersonDetail.data.father_id}
                   </span>
@@ -129,7 +129,7 @@ const PersonDetail = ({
               {getChildrenInDetail.data &&
                 getChildrenInDetail.data.length > 0 && (
                   <>
-                    <span>{t('children')}</span>
+                    <span>{t("children")}</span>
                     {getChildrenInDetail.data.map((e) => (
                       <span
                         className="cursor-pointer font-bold text-blue-700 underline"
@@ -143,6 +143,20 @@ const PersonDetail = ({
                     <br />
                   </>
                 )}
+              {getPersonDetail.data.partner_id && (
+                <div>
+                  {t("partner")}{" "}
+                  <span
+                    className="cursor-pointer font-bold text-blue-700 underline"
+                    onClick={() => {
+                      if (getPersonDetail.data.partner_id)
+                        selectPerson(getPersonDetail.data.partner_id);
+                    }}
+                  >
+                    {getPersonDetail.data.partner_id}
+                  </span>
+                </div>
+              )}
               {privileges && (
                 <button
                   onClick={() =>

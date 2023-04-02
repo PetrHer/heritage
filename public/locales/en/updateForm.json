@@ -13,5 +13,6 @@
     "succes": " succesfully updated.",
     "search_id": "ID to update :",
     "search_button": "Search",
-    "alert": "Succesfully updated record with ID "
+    "alert": "Succesfully updated record with ID ",
+    "partner_id":"ID of partner : "
   }

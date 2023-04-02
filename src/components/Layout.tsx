@@ -6,13 +6,11 @@ import PropTypes from "prop-types";
 
 type LayoutProps = {
   children: ReactNode;
-  mainContentLanguage: (arg: string) => void;
   setPrivileges: (arg: boolean) => void;
 };
 
 const Layout = ({
   children,
-  mainContentLanguage = () => {},
   setPrivileges = () => {},
 }: LayoutProps) => {
   return (
@@ -22,7 +20,7 @@ const Layout = ({
         <meta name="description" content="heritage of Petr Herynek" />
         <link rel="icon" type="image/png" href="/parchment-icon.png" />
       </Head>
-      <NavMenu  />
+      <NavMenu setPrivileges={setPrivileges} />
       <main>
         {children}
       </main>
