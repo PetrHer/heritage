@@ -18,6 +18,7 @@ test("getPerson id 1", async () => {
     image: "",
     mother_id: 0,
     year_of_death: "",
+    partner_id:null,
   };
   prismaMock.person.findFirstOrThrow.mockResolvedValue(mockResponse);
   const caller = appRouter.createCaller({ session: null, prisma: prismaMock });

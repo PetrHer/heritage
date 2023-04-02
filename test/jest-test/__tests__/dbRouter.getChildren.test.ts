@@ -16,6 +16,7 @@ test('get children', async()=>{
         image: "",
         mother_id: 0,
         year_of_death: "",
+        partner_id:null,
       }];
       prismaMock.person.findMany.mockResolvedValue(mockResponse);
     const caller = appRouter.createCaller(createInnerTRPCContext({
