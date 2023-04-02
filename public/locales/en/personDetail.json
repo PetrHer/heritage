@@ -1,0 +1,12 @@
+{
+    "name": "Name : ",
+    "surname": "Surname : ",
+    "birth_surname": "Birth surname : ",
+    "year_of_birth": "Year of birth : ",
+    "year_of_death": "Year of death : ",
+    "birth_place": "Place of birth : ",
+    "mother_id": "ID of mother : ",
+    "father_id": "ID of father : ",
+    "not_found": "Record not found.",
+    "children": "IDs of children : "
+  }

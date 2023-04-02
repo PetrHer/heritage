@@ -1,0 +1,11 @@
+{
+    "name": "Jméno :",
+    "surname": "Příjmení :",
+    "header": "Smazání záznamu z databáze",
+    "id_to_search": "ID ke smazání :",
+    "id": "ID :",
+    "search": "Hledat",
+    "year": "Rok narození :",
+    "delete": "Smazat",
+    "alert": "Smazán záznam s ID "
+  }

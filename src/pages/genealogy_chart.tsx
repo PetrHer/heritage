@@ -4,15 +4,13 @@ import { api } from "../utils/api";
 import PersonDetail from "../components/PersonDetail";
 import style from "../styles/PersonDetail.module.css";
 import Layout from "../components/Layout";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "next-i18next";
 
 const PersonChart = () => {
   const [id, setId] = useState<number>();
   const [privileges, setPrivileges] = useState<boolean>(false);
-  const [translatedContent, setTranslatedContent] = useState<{
-    detail_header: string;
-  }>({ detail_header: "Vítejte" });
-  const [language, setLanguage] = useState<string>("cz");
-
+ const { t } = useTranslation("genealogy_chart");
   useEffect(() => {
     setId(Number(sessionStorage.getItem("id")));
   }, []);
@@ -26,31 +24,19 @@ const PersonChart = () => {
     if (id) response.mutate(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
-  useEffect(() => {
-    switch (language) {
-      case "cz":
-        setTranslatedContent({ detail_header: "Údaje :" });
-        break;
 
-      case "en":
-        setTranslatedContent({ detail_header: "Detail :" });
-        break;
-    }
-  }, [language]);
 
   return (
     <Layout
-      mainContentLanguage={(x: string) => setLanguage(x)}
       setPrivileges={setPrivileges}
     >
       <div>
         <div className="genContent ">
           <div className={style.container}>
-            <h1>{translatedContent.detail_header}</h1>
+            <h1>{t('detail_header')}</h1>
             {id && (
               <PersonDetail
                 id={id}
-                language={language}
                 privileges={privileges}
                 setID={(x) => setId(x)}
               />
@@ -58,7 +44,6 @@ const PersonChart = () => {
           </div>
           {response.data && (
             <GenealogyChart
-              language={language}
               changeId={changeId}
               person={response.data}
               id={response.data.id}
@@ -70,3 +55,12 @@ const PersonChart = () => {
   );
 };
 export default PersonChart;
+export async function getServerSideProps({ locale }: { locale: string }) {
+  return {
+    props: {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      ...(await serverSideTranslations(locale, ["genealogy_chart", "navmenu","personDetail","chartDetail"])),
+      // Will be passed to the page component as props
+    },
+  };
+}

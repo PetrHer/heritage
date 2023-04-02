@@ -1,18 +1,11 @@
-import React, { useRef, useState, useEffect } from "react";
+import  { useRef } from "react";
 import { api } from "../utils/api";
 import Layout from "../components/Layout";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "next-i18next";
 
 const Login = () => {
-  const [translatedContent, setTranslatedContent] = useState<{
-    username: string;
-    password: string;
-    login_button: string;
-  }>({
-    username: "Uživatelské jméno :",
-    password: "Heslo :",
-    login_button: "Přihlásit",
-  });
-  const [language, setLanguage] = useState<string>("cz");
+  const { t } = useTranslation("login");
   const username = useRef<HTMLInputElement>(null);
   const password = useRef<HTMLInputElement>(null);
   const loginMethod = api.authRouter.login.useMutation();
@@ -31,29 +24,10 @@ const Login = () => {
   if (loginMethod.isError) {
     alert(loginMethod.error.message);
   }
-  useEffect(() => {
-    switch (language) {
-      case "cz":
-        setTranslatedContent({
-          username: "Uživatelské jméno :",
-          password: "Heslo :",
-          login_button: "Přihlásit",
-        });
-        break;
-
-      case "en":
-        setTranslatedContent({
-          username: "Username :",
-          password: "Password :",
-          login_button: "Sign in",
-        });
-        break;
-    }
-  }, [language]);
   return (
-    <Layout mainContentLanguage={(x: string) => setLanguage(x)} >
+    <Layout>
       <div className="login">
-        <div>{translatedContent.username}</div>
+        <div>{t('username')}</div>
         <input
           className="border"
           test-id="username"
@@ -61,7 +35,7 @@ const Login = () => {
           type="text"
         />
         <br />
-        <div>{translatedContent.password}</div>
+        <div>{t('password')}</div>
         <input
           ref={password}
           test-id="password"
@@ -74,7 +48,7 @@ const Login = () => {
           test-id="signin"
           className="w-20 rounded-xl border border-black bg-blue-300"
         >
-          {translatedContent.login_button}
+          {t('login_button')}
         </button>
       </div>
     </Layout>
@@ -82,3 +56,13 @@ const Login = () => {
 };
 
 export default Login;
+
+export async function getServerSideProps({ locale }: { locale: string }) {
+  return {
+    props: {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      ...(await serverSideTranslations(locale, ["login", "navmenu"])),
+      // Will be passed to the page component as props
+    },
+  };
+}

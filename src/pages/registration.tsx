@@ -1,22 +1,11 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef } from "react";
 import { api } from "../utils/api";
 import Layout from "../components/Layout";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "next-i18next";
 
 const Registration = () => {
-  const [translatedContent, setTranslatedContent] = useState<{
-    username: string;
-    password: string;
-    confirm_password: string;
-    registration_button: string;
-    succes: string;
-  }>({
-    username: "Uživatelské jméno :",
-    password: "Heslo :",
-    confirm_password: "Potvrdit heslo :",
-    registration_button: "Přihlásit",
-    succes: "Registrace úspěšná, potvrzovací email byl odeslán.",
-  });
-  const [language, setLanguage] = useState<string>("cz");
+  const { t } = useTranslation("registration");
   const username = useRef<HTMLInputElement>(null);
   const email = useRef<HTMLInputElement>(null);
   const password = useRef<HTMLInputElement>(null);
@@ -39,45 +28,22 @@ const Registration = () => {
   if (reg.isError) {
     alert(reg.error.message);
   }
-  useEffect(() => {
-    switch (language) {
-      case "cz":
-        setTranslatedContent({
-          username: "Uživatelské jméno :",
-          password: "Heslo :",
-          registration_button: "Registrovat se",
-          confirm_password: "Potvrdit heslo :",
-          succes: "Registrace úspěšná, potvrzovací email byl odeslán.",
-        });
-        break;
-
-      case "en":
-        setTranslatedContent({
-          username: "Username :",
-          password: "Password :",
-          registration_button: "Sign up",
-          confirm_password: "Confirm password :",
-          succes: "Registration succesfull, verification email has been sent.",
-        });
-        break;
-    }
-  }, [language]);
   return (
-    <Layout mainContentLanguage={(x: string) => setLanguage(x)}>
+    <Layout >
       <div className="registration">
         {!reg.isSuccess && (
           <>
             {" "}
-            <div>{translatedContent.username}</div>
+            <div>{t('username')}</div>
             <input className="border" ref={username} type="text" />
             <br />
             <div>Email :</div>
             <input type="email" className="border" ref={email} />
             <br />
-            <div>{translatedContent.password}</div>
+            <div>{t('password')}</div>
             <input className="border" ref={password} type="password" />
             <br />
-            <div>{translatedContent.confirm_password}</div>
+            <div>{t('confirm_password')}</div>
             <input
               className="border"
               ref={confirmed_password}
@@ -88,14 +54,24 @@ const Registration = () => {
               onClick={register}
               className="w-28 rounded-xl border border-black bg-blue-300"
             >
-              {translatedContent.registration_button}
+              {t('registration_button')}
             </button>
           </>
         )}
-        {reg.isSuccess && <div>{translatedContent.succes}</div>}
+        {reg.isSuccess && <div>{t('succes')}</div>}
       </div>
     </Layout>
   );
 };
 
 export default Registration;
+export async function getServerSideProps({ locale }: { locale: string }) {
+  return {
+    props: {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      ...(await serverSideTranslations(locale, ["registration", "navmenu"])),
+      // Will be passed to the page component as props
+    },
+  };
+}
+

@@ -1,3 +1,11 @@
 {
-    "home": "ÚVOD"
+    "home": "ÚVOD",
+    "list": "SEZNAM",
+    "genealogy": "RODOKMEN",
+    "detail": "ÚDAJE",
+    "records": "ZÁZNAMY",
+    "login": "PŘIHLÁSIT",
+    "registration": "REGISTRACE",
+    "signout": "Odhlásit",
+    "image": "/czech.png"
 }

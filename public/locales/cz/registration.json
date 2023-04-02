@@ -1,0 +1,7 @@
+{
+    "username": "Uživatelské jméno :",
+    "password": "Heslo :",
+    "confirm_password": "Potvrdit heslo :",
+    "registration_button": "Přihlásit",
+    "succes": "Registrace úspěšná, potvrzovací email byl odeslán."
+  }
