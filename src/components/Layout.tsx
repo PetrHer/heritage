@@ -22,7 +22,7 @@ const Layout = ({
         <meta name="description" content="heritage of Petr Herynek" />
         <link rel="icon" type="image/png" href="/parchment-icon.png" />
       </Head>
-      <NavMenu  mainContentLanguage={mainContentLanguage}  setPrivileges={setPrivileges} />
+      <NavMenu  />
       <main>
         {children}
       </main>
