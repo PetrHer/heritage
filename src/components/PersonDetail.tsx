@@ -1,10 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { useEffect, useState } from "react";
 import { api } from "../utils/api";
 import PropTypes from "prop-types";
 
 type PersonDetailProps = {
-  id: number | undefined;
+  id: number;
   setPhoto: (arg: string) => void;
   setInfo: (arg: string) => void;
   language: string;
@@ -30,6 +31,7 @@ const PersonDetail = ({
     mother_id: string;
     father_id: string;
     not_found: string;
+    children: string;
   }>({
     name: "Jméno : ",
     surname: "Příjmení : ",
@@ -40,22 +42,25 @@ const PersonDetail = ({
     mother_id: "ID matky : ",
     father_id: "ID otce : ",
     not_found: "Záznam nenalezen.",
+    children: "ID dětí : ",
   });
 
   const getPersonDetail = api.dbRouter.getPerson.useMutation();
   useEffect(() => {
     if (id) {
       getPersonDetail.mutate(Number(id));
+      getChildrenInDetail.mutate(id);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
   const verification = api.authRouter.verify.useMutation();
+  const getChildrenInDetail = api.dbRouter.getChildren.useMutation();
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       verification.mutate(token);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    getChildrenInDetail.mutate(id);
   }, []);
   useEffect(() => {
     if (getPersonDetail.data?.image) {
@@ -68,7 +73,6 @@ const PersonDetail = ({
     } else {
       setInfo("");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getPersonDetail.data]);
 
   useEffect(() => {
@@ -84,6 +88,7 @@ const PersonDetail = ({
           mother_id: "ID of mother : ",
           father_id: "ID of father : ",
           not_found: "Record not found.",
+          children: "IDs of children : ",
         });
         break;
 
@@ -98,6 +103,7 @@ const PersonDetail = ({
           mother_id: "ID matky : ",
           father_id: "ID otce : ",
           not_found: "Záznam nenalezen.",
+          children: "ID dětí : ",
         });
         break;
     }
@@ -112,6 +118,9 @@ const PersonDetail = ({
     sessionStorage.setItem("updateID", arg);
     window.location.href = "/records";
   };
+  if (getChildrenInDetail.isSuccess) {
+    getChildrenInDetail.data.sort((a, b) => a.id - b.id);
+  }
 
   return (
     <>
@@ -173,6 +182,23 @@ const PersonDetail = ({
                   </span>
                 </div>
               )}
+              {getChildrenInDetail.data &&
+                getChildrenInDetail.data.length > 0 && (
+                  <>
+                    <span>{translatedContent.children}</span>
+                    {getChildrenInDetail.data.map((e) => (
+                      <span
+                        className="cursor-pointer font-bold text-blue-700 underline"
+                        onClick={() => selectPerson(e.id)}
+                        style={{ margin: "1px" }}
+                        key={e.id}
+                      >
+                        {e.id}
+                      </span>
+                    ))}
+                    <br />
+                  </>
+                )}
               {privileges && (
                 <button
                   onClick={() =>

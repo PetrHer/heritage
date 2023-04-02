@@ -1,4 +1,4 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import GenealogyChart from "../components/GenealogyChart";
 import { api } from "../utils/api";
 import PersonDetail from "../components/PersonDetail";
@@ -47,12 +47,14 @@ const PersonChart = () => {
         <div className="genContent ">
           <div className={style.container}>
             <h1>{translatedContent.detail_header}</h1>
-            <PersonDetail
-              id={id}
-              language={language}
-              privileges={privileges}
-              setID={(x) => setId(x)}
-            />
+            {id && (
+              <PersonDetail
+                id={id}
+                language={language}
+                privileges={privileges}
+                setID={(x) => setId(x)}
+              />
+            )}
           </div>
           {response.data && (
             <GenealogyChart
