@@ -15,7 +15,7 @@ model Person {
   surname       String
   birth_surname String?
   year_of_birth Int?
-  year_of_death String?
+  year_of_death Int?
   birth_place   String?
   image         String? @default("https://bnjcklhtmxxsdvaqzmpj.supabase.co/storage/v1/object/public/herytage/default.png")
   description   String?

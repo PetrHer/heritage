@@ -17,7 +17,7 @@ test("get all", async () => {
       father_id: 0,
       image: "",
       mother_id: 0,
-      year_of_death: "",
+      year_of_death: null,
       partner_id: null,
     },
     {
@@ -31,7 +31,7 @@ test("get all", async () => {
       father_id: 0,
       image: "",
       mother_id: 0,
-      year_of_death: "",
+      year_of_death: null,
       partner_id: null,
     },
     {
@@ -45,7 +45,7 @@ test("get all", async () => {
       father_id: 0,
       image: "",
       mother_id: 0,
-      year_of_death: "",
+      year_of_death: null,
       partner_id: null,
     },
   ];
@@ -74,7 +74,7 @@ test("get all by surname", async () => {
       father_id: 0,
       image: "",
       mother_id: 0,
-      year_of_death: "",
+      year_of_death: null,
       partner_id: null,
     },
     {
@@ -88,7 +88,7 @@ test("get all by surname", async () => {
       father_id: 0,
       image: "",
       mother_id: 0,
-      year_of_death: "",
+      year_of_death: null,
       partner_id: null,
     },
     {
@@ -102,7 +102,7 @@ test("get all by surname", async () => {
       father_id: 0,
       image: "",
       mother_id: 0,
-      year_of_death: "",
+      year_of_death: null,
       partner_id: null,
     },
   ];
@@ -128,7 +128,7 @@ test("get all by initials", async () => {
       father_id: 0,
       image: "",
       mother_id: 0,
-      year_of_death: "",
+      year_of_death: null,
       partner_id: null,
     },
     {
@@ -142,7 +142,7 @@ test("get all by initials", async () => {
       father_id: 0,
       image: "",
       mother_id: 0,
-      year_of_death: "",
+      year_of_death: null,
       partner_id: null,
     },
     {
@@ -156,7 +156,7 @@ test("get all by initials", async () => {
       father_id: 0,
       image: "",
       mother_id: 0,
-      year_of_death: "",
+      year_of_death: null,
       partner_id: null,
     },
   ];

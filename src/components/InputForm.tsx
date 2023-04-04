@@ -2,32 +2,25 @@ import { useEffect, useState } from "react";
 import { api } from "../utils/api";
 import styles from "../styles/InputForm.module.css";
 import { useTranslation } from "next-i18next";
-type Character = {
-  name: "";
-  surname: string;
-  year_of_birth: number | undefined;
-  year_of_death: string;
-  birth_place: string;
-  birth_surname: string;
-  father_id: number | undefined;
-  mother_id: number | undefined;
-  description: string;
-  partner_id: number | undefined;
-};
+import React from "react";
+import type { Character} from "../utils/functions";
+import { numberTypes } from "../utils/functions";
+
 
 const InputForm = () => {
-  const [personData, setPersonData] = useState<Character>({
+  const baseState:Character = {
     name: "",
     surname: "",
     year_of_birth: undefined,
-    year_of_death: "",
+    year_of_death: undefined,
     birth_place: "",
     birth_surname: "",
     father_id: undefined,
     mother_id: undefined,
     description: "",
     partner_id: undefined,
-  });
+  }
+  const [personData, setPersonData] = useState<Character>(baseState);
   const { t } = useTranslation("inputForm");
   const creation = api.dbRouter.addPerson.useMutation();
   const putPersonInDB = () => {
@@ -37,12 +30,7 @@ const InputForm = () => {
     }
   };
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (
-      event.target.name == "mother_id" ||
-      event.target.name == "father_id" ||
-      event.target.name == "year_of_birth" ||
-      event.target.name == "partner_id"
-    ) {
+    if (numberTypes.includes(event.target.name)) {
       setPersonData({
         ...personData,
         [event.target.name]: Number(event.target.value),
@@ -53,100 +41,26 @@ const InputForm = () => {
   };
   useEffect(() => {
     if (creation.isSuccess) {
-      setPersonData({
-        name: "",
-        surname: "",
-        year_of_birth: 0,
-        year_of_death: "",
-        birth_place: "",
-        birth_surname: "",
-        father_id: 0,
-        mother_id: 0,
-        description: "",
-        partner_id: undefined,
-      });
+      setPersonData(baseState);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [creation.isSuccess]);
 
   return (
     <div className={styles.container}>
       <h1 className="col-start-1 col-end-3">{t("header")}</h1>
-      <div>{t("name")}</div>
-      <input
-        className="border"
-        name="name"
-        value={personData.name}
-        onChange={handleChange}
-      />
-      <div>{t("surname")} </div>
-      <input
-        className="border"
-        name="surname"
-        value={personData.surname}
-        onChange={handleChange}
-      />
-      <div>{t("birth_surname")}</div>
-      <input
-        className="border"
-        name="birth_surname"
-        value={personData.birth_surname}
-        onChange={handleChange}
-      />
-      <div>{t("year_of_birth")}</div>
-      <input
-        className="border"
-        type="number"
-        name="year_of_birth"
-        value={personData.year_of_birth}
-        onChange={handleChange}
-      />
-      <div>{t("year_of_death")} </div>
-      <input
-        className="border"
-        type="number"
-        name="year_of_death"
-        value={personData.year_of_death}
-        onChange={handleChange}
-      />
-      <div>{t("birth_place")} </div>
-      <input
-        className="border"
-        name="birth_place"
-        value={personData.birth_place}
-        onChange={handleChange}
-      />
-      <div>{t("mother_id")} </div>
-      <input
-        className="border"
-        type="number"
-        name="mother_id"
-        value={personData.mother_id}
-        onChange={handleChange}
-      />
-      <div>{t("father_id")} </div>
-      <input
-        className="border"
-        type="number"
-        name="father_id"
-        value={personData.father_id}
-        onChange={handleChange}
-      />
-      <div>{t("partner_id")} </div>
-      <input
-        className="border"
-        type="number"
-        name="partner_id"
-        value={personData.partner_id}
-        onChange={handleChange}
-      />
-      <div>{t("description")} </div>
-      <input
-        className="border"
-        type="text-area"
-        name="description"
-        value={personData.description}
-        onChange={handleChange}
-      />
+      {Object.keys(personData).map((key) => (
+        <React.Fragment key={key}>
+          <div>{t(key)}</div>
+          <input
+            className="border"
+            name={key}
+            type={(numberTypes.includes(key))? "number" : ""}
+            value={personData[key as keyof Character]}
+            onChange={handleChange}
+          />
+        </React.Fragment>
+      ))}
       <button onClick={putPersonInDB} className="buttons">
         {t("create_button")}
       </button>

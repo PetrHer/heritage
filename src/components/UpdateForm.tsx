@@ -3,8 +3,11 @@ import { useEffect, useRef, useState } from "react";
 import { api } from "../utils/api";
 import styles from "../styles/UpdateForm.module.css";
 import { useTranslation } from "next-i18next";
+import { numberTypes } from "../utils/functions";
+import React from "react";
 
 const UpdateForm = () => {
+  const orderedKeys = ["name", "surname", "year_of_birth", "year_of_death", "birth_place", "birth_surname", "father_id", "mother_id", "description", "partner_id"];
   const idInput = useRef<HTMLInputElement>(null);
   const [personData, setPersonData] = useState<Person>({
     id: 0,
@@ -12,7 +15,7 @@ const UpdateForm = () => {
     surname: "",
     birth_surname: "",
     year_of_birth: null,
-    year_of_death: "",
+    year_of_death: null,
     birth_place: "",
     father_id: null,
     mother_id: null,
@@ -29,12 +32,7 @@ const UpdateForm = () => {
     }
   };
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (
-      event.target.name == "mother_id" ||
-      event.target.name == "father_id" ||
-      event.target.name == "year_of_birth" ||
-      event.target.name == "partner_id"
-    ) {
+    if (numberTypes.includes(event.target.name)) {
       setPersonData({
         ...personData,
         [event.target.name]: Number(event.target.value),
@@ -75,82 +73,18 @@ const UpdateForm = () => {
       {search.data && (
         <>
           <div className="col-start-1 col-end-3">ID : {search.data.id}</div>
-          <div>{t("name")} </div>
-          <input
-            className="border"
-            name="name"
-            value={personData.name}
-            onChange={handleChange}
-          />
-          <div>{t("surname")} </div>
-          <input
-            className="border"
-            name="surname"
-            value={personData.surname}
-            onChange={handleChange}
-          />
-          <div>{t("birth_surname")} </div>
-          <input
-            className="border"
-            name="birth_surname"
-            value={personData.birth_surname || ""}
-            onChange={handleChange}
-          />
-          <div>{t("year_of_birth")} </div>
-          <input
-            className="border"
-            type="number"
-            name="year_of_birth"
-            value={personData.year_of_birth || ""}
-            onChange={handleChange}
-          />
-          <div>{t("year_of_death")} </div>
-          <input
-            className="border"
-            type="number"
-            name="year_of_death"
-            value={personData.year_of_death || ""}
-            onChange={handleChange}
-          />
-          <div>{t("birth_place")} </div>
-          <input
-            className="border"
-            name="birth_place"
-            value={personData.birth_place || ""}
-            onChange={handleChange}
-          />
-          <div>{t("mother_id")} </div>
-          <input
-            className="border"
-            type="number"
-            name="mother_id"
-            value={personData.mother_id || ""}
-            onChange={handleChange}
-          />
-          <div>{t("father_id")} </div>
-          <input
-            className="border"
-            type="number"
-            name="father_id"
-            value={personData.father_id || ""}
-            onChange={handleChange}
-          />
-          <div>{t("partner_id")} </div>
-          <input
-            className="border"
-            type="number"
-            name="partner_id"
-            value={personData.partner_id || ""}
-            onChange={handleChange}
-          />
-          <div>{t("description")}</div>
-          <input
-            className="border"
-            type="text"
-            name="description"
-            value={personData.description || ""}
-            onChange={handleChange}
-          />
+          {orderedKeys.map((key) => (
+            <React.Fragment key={key}>
+              <div>{t(key)}</div>
+              <input
+                className="border"
+                name={key}
+                type={numberTypes.includes(key) ? "number" : ""}
+                value={personData[key as keyof Person] || ""}
+                onChange={handleChange}
+              />
+            </React.Fragment>
+          ))}
           <button onClick={updatePersonInDB} className="buttons">
             {t("update_button")}
           </button>
