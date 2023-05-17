@@ -3,11 +3,14 @@ import Image from "next/image";
 import { api } from "../utils/api";
 import { uploadImage } from "../utils/uploader";
 import { useTranslation } from "next-i18next";
+import { useSelector } from "react-redux";
+import type { RootState } from "../utils/redux/store";
 
-type PersonImageProps = { photo: string; id: number };
+type PersonImageProps = { photo: string;};
 
-const PersonImage = ({ photo, id }: PersonImageProps) => {
-
+const PersonImage = ({ photo }: PersonImageProps) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-return
+    const id:number = useSelector((state:RootState) => state.id.id);
   const { t } = useTranslation("personImage");
   const filePath = useRef<HTMLInputElement>(null);
   const [disableUpload, setDisableUpload] = useState<boolean>(true);

@@ -67,12 +67,10 @@ const NavMenu = ({ setPrivileges = () => {} }: NavMenuProps) => {
         <Link className={styles.linkItem} href={"/list"}>
           {t("list")}
         </Link>
-        {selected && (
-          <Link className={styles.linkItem} href={"/genealogy_chart"}>
+         <Link className={styles.linkItem} href={"/genealogy_chart"}>
             {t("genealogy")}
           </Link>
-        )}
-        {selected && verification.isSuccess && (
+        { verification.isSuccess && (
           <Link className={styles.linkItem} href={"/person_detail"}>
             {t("detail")}
           </Link>

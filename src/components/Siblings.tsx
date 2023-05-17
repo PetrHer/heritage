@@ -1,24 +1,27 @@
 import type { Person } from "@prisma/client";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import style from "../styles/GenealogyChart.module.css";
 import { api } from "../utils/api";
+import { useDispatch } from "react-redux";
+import { setId } from "../utils/redux/idSlice";
 
-type SiblingsProps = { person: Person; changeId: (arg: number) => void };
+type SiblingsProps = { person: Person };
 
-const Siblings = ({ person, changeId }: SiblingsProps) => {
-  const [displaySiblings, setDisplaySiblings] = useState(false);
-  const siblings = api.dbRouter.getSiblings.useMutation();
+const Siblings = ({ person }: SiblingsProps) => {
+   const [displaySiblings, setDisplaySiblings] = useState(false);
+  const siblings = api.dbRouter.getSiblings.useQuery({
+    motherId: person.mother_id,
+    fatherId: person.father_id,
+    personId: person.id,
+  });
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+      const dispatch = useDispatch();
+      const changeId = (x: number) => {
+       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+       dispatch(setId(x));
+       };
 
-  useEffect(() => {
-    if (person.father_id && person.mother_id) {
-      siblings.mutate({
-        motherId: person.mother_id,
-        fatherId: person.father_id,
-        personId: person.id,
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [person.mother_id, person.father_id]);
+
   const siblingVisibility = (x: boolean) => {
     setDisplaySiblings(x);
   };

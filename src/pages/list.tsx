@@ -1,17 +1,26 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { useEffect, useRef } from "react";
 import { api } from "../utils/api";
 import Layout from "../components/Layout";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
+import { setId } from "../utils/redux/idSlice";
+import { useDispatch } from 'react-redux';
+import { useRouter } from "next/router";
 
 const List = () => {
   const getData = api.dbRouter.getAll.useMutation();
   const surname = useRef<HTMLInputElement>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+  const dispatch = useDispatch();
+  const router = useRouter();
   const { t } = useTranslation("list");
   const changeId = (x: number) => {
-    sessionStorage.setItem("id", x.toString());
-    window.location.href = "/genealogy_chart";
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    dispatch(setId(x));
+    void router.push("/genealogy_chart")
   };
+
   const verification = api.authRouter.verify.useMutation();
   useEffect(() => {
     const token = localStorage.getItem("token");
