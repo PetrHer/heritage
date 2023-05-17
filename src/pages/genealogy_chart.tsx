@@ -6,26 +6,16 @@ import style from "../styles/PersonDetail.module.css";
 import Layout from "../components/Layout";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
+import {  useSelector } from 'react-redux';
+import type {RootState}  from '../utils/redux/store';
 
 const PersonChart = () => {
-  const [id, setId] = useState<number>();
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-return
+  const id:number = useSelector((state:RootState) => state.id.id);
   const [privileges, setPrivileges] = useState<boolean>(false);
  const { t } = useTranslation("genealogy_chart");
-  useEffect(() => {
-    setId(Number(sessionStorage.getItem("id")));
-  }, []);
-  const changeId = (x: number) => {
-    sessionStorage.setItem("id", x.toString());
-    setId(x);
-  };
 
-  const response = api.dbRouter.getPerson.useMutation();
-  useEffect(() => {
-    if (id) response.mutate(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
-
-
+  const response = api.dbRouter.getPerson.useQuery(id);
   return (
     <Layout
       setPrivileges={setPrivileges}
@@ -36,15 +26,12 @@ const PersonChart = () => {
             <h1>{t('detail_header')}</h1>
             {id && (
               <PersonDetail
-                id={id}
                 privileges={privileges}
-                setID={(x) => setId(x)}
               />
             )}
           </div>
           {response.data && (
             <GenealogyChart
-              changeId={changeId}
               person={response.data}
               id={response.data.id}
             />

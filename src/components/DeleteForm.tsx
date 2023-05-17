@@ -15,7 +15,7 @@ const DeleteForm = () => {
       }
     }
   };
-  const search = api.dbRouter.getPerson.useMutation();
+  const search = api.dbRouter.getPersonRecords.useMutation();
   const findPerson = () => {
     if (personToDelete.current?.value)
       search.mutate(Number(personToDelete.current.value));

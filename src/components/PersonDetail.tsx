@@ -4,39 +4,34 @@ import { useEffect } from "react";
 import { api } from "../utils/api";
 import PropTypes from "prop-types";
 import { useTranslation } from "next-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import type { RootState } from "../utils/redux/store";
+import { setId } from "../utils/redux/idSlice";
 
 type PersonDetailProps = {
-  id: number;
   setPhoto: (arg: string) => void;
   setInfo: (arg: string) => void;
-  setID: (arg: number) => void;
   privileges: boolean;
 };
 
 const PersonDetail = ({
-  id,
   setPhoto = () => {},
   setInfo = () => {},
-  setID,
   privileges,
 }: PersonDetailProps) => {
   const { t } = useTranslation("personDetail");
-  const getPersonDetail = api.dbRouter.getPerson.useMutation();
-  useEffect(() => {
-    if (id) {
-      getPersonDetail.mutate(Number(id));
-      getChildrenInDetail.mutate(id);
-    }
-  }, [id]);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+  const id: number = useSelector((state: RootState) => state.id.id);
+  const getPersonDetail = api.dbRouter.getPerson.useQuery(id);
+
   const verification = api.authRouter.verify.useMutation();
-  const getChildrenInDetail = api.dbRouter.getChildren.useMutation();
+  const getChildrenInDetail = api.dbRouter.getChildren.useQuery(id);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       verification.mutate(token);
     }
-    getChildrenInDetail.mutate(id);
   }, []);
   useEffect(() => {
     if (getPersonDetail.data?.image) {
@@ -52,9 +47,11 @@ const PersonDetail = ({
   }, [getPersonDetail.data]);
 
   const selectPerson = (selecteId: number) => {
-    sessionStorage.setItem("id", selecteId.toString());
-    setID(selecteId);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    dispatch(setId(selecteId));
   };
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+  const dispatch = useDispatch();
 
   const updatePerson = (arg: string) => {
     sessionStorage.setItem("updateID", arg);

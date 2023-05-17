@@ -7,8 +7,18 @@ const secret = "minesupersecretkey";
 
 export const dbRouter = createTRPCRouter({
   getPerson: publicProcedure
-    .input(z.number())
+    .input(z.number().nullish())
+    .query(async ({ ctx, input }) => {
+      if (!input) {throw new Error("missing id")}
+      const response = await ctx.prisma.person.findFirstOrThrow({
+        where: { id: input },
+      });
+      return response;
+    }),
+    getPersonRecords: publicProcedure
+    .input(z.number().nullish())
     .mutation(async ({ ctx, input }) => {
+      if (!input) {throw new Error("missing id")}
       const response = await ctx.prisma.person.findFirstOrThrow({
         where: { id: input },
       });
@@ -17,16 +27,16 @@ export const dbRouter = createTRPCRouter({
   getSiblings: publicProcedure
     .input(
       z.object({
-        motherId: z.number(),
-        fatherId: z.number(),
+        motherId: z.number().nullish(),
+        fatherId: z.number().nullish(),
         personId: z.number(),
       })
     )
-    .mutation(async ({ ctx, input }) => {
+    .query(async ({ ctx, input }) => {
       const response = await ctx.prisma.person.findMany({
         where: {
-          mother_id: input.motherId,
-          father_id: input.fatherId,
+          OR:{ mother_id: input.motherId,
+          father_id: input.fatherId,},
           NOT: { id: input.personId },
         },
       });
@@ -34,7 +44,7 @@ export const dbRouter = createTRPCRouter({
     }),
   getChildren: publicProcedure
     .input(z.number())
-    .mutation(async ({ ctx, input }) => {
+    .query(async ({ ctx, input }) => {
       const response = await ctx.prisma.person.findMany({
         where: {
           OR: [{ mother_id: input }, { father_id: input }],
@@ -179,6 +189,14 @@ export const dbRouter = createTRPCRouter({
       const response = await prisma.person.update({
         where: { id: input.input.id },
         data,
+      });
+      return response;
+    }),
+    getPartner: publicProcedure
+    .input(z.number())
+    .query(async ({ ctx, input }) => {
+      const response = await ctx.prisma.person.findFirstOrThrow({
+        where: { partner_id: input },
       });
       return response;
     }),

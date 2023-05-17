@@ -41,7 +41,7 @@ const UpdateForm = () => {
       setPersonData({ ...personData, [event.target.name]: event.target.value });
     }
   };
-  const search = api.dbRouter.getPerson.useMutation();
+  const search = api.dbRouter.getPersonRecords.useMutation();
   const findPerson = () => {
     if (idInput.current?.value) search.mutate(Number(idInput.current.value));
   };

@@ -1,14 +1,21 @@
 import style from "../styles/GenealogyChart.module.css";
 import type { Person } from "@prisma/client";
 import { useTranslation } from "next-i18next";
+import { useDispatch } from "react-redux";
+import { setId } from "../utils/redux/idSlice";
 
 type ChartDetailProps = {
   person: Person;
-  changeId: (arg: number) => void;
 };
 
-const ChartDetail = ({ person, changeId }: ChartDetailProps) => {
+const ChartDetail = ({ person }: ChartDetailProps) => {
   const { t } = useTranslation("chartDetail");
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+    const dispatch = useDispatch();
+    const changeId = (x: number) => {
+     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+     dispatch(setId(x));
+     };
   return (
     <div onClick={() => changeId(person.id)} className={style.detail}>
       <div>ID : {person.id}</div>
