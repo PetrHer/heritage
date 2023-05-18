@@ -5,6 +5,9 @@ import styles from "../styles/UpdateForm.module.css";
 import { useTranslation } from "next-i18next";
 import { numberTypes } from "../utils/functions";
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../utils/redux/store";
+import { setIdToUpdate } from "../utils/redux/idToUpdateSlice";
 
 const UpdateForm = () => {
   const orderedKeys = ["name", "surname", "year_of_birth", "year_of_death", "birth_place", "birth_surname", "father_id", "mother_id", "description", "partner_id"];
@@ -42,16 +45,22 @@ const UpdateForm = () => {
     }
   };
   const search = api.dbRouter.getPersonRecords.useMutation();
-  const findPerson = () => {
-    if (idInput.current?.value) search.mutate(Number(idInput.current.value));
-  };
-  useEffect(() => {
-    if (sessionStorage.getItem("updateID")) {
-      search.mutate(Number(sessionStorage.getItem("updateID")));
-      sessionStorage.removeItem("updateID");
+  const dispatch = useDispatch();
+  const idToUpdate:number = useSelector((state:RootState) => state.idToUpdate.idToUpdate);
+  const findPersonById = () => {
+    if (idInput.current?.value) {
+      dispatch(setIdToUpdate(Number(idInput.current.value)))
     }
+  };
+  const findPerson = ()=> {
+      search.mutate(idToUpdate) 
+  }
+  useEffect(() => {
+      if (idToUpdate!=0) {
+        findPerson()
+      }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [idToUpdate]);
   useEffect(() => {
     if (search.data) setPersonData(search.data);
   }, [search.data]);
@@ -67,7 +76,7 @@ const UpdateForm = () => {
       <h1 className="col-start-1 col-end-3">{t("header")}</h1>
       <div>{t("search_id")} </div>
       <input className="border" type="number" ref={idInput}></input>
-      <button onClick={findPerson} className="buttons">
+      <button onClick={findPersonById} className="buttons">
         {t("search_button")}
       </button>
       {search.data && (
