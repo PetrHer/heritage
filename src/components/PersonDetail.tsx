@@ -7,23 +7,23 @@ import { useTranslation } from "next-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../utils/redux/store";
 import { setId } from "../utils/redux/idSlice";
+import { setIdToUpdate } from "../utils/redux/idToUpdateSlice";
+import { useRouter } from "next/router";
 
 type PersonDetailProps = {
   setPhoto: (arg: string) => void;
   setInfo: (arg: string) => void;
-  privileges: boolean;
-};
+  };
 
 const PersonDetail = ({
   setPhoto = () => {},
   setInfo = () => {},
-  privileges,
 }: PersonDetailProps) => {
   const { t } = useTranslation("personDetail");
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
   const id: number = useSelector((state: RootState) => state.id.id);
   const getPersonDetail = api.dbRouter.getPerson.useQuery(id);
-
+  const privileges:boolean = useSelector((state:RootState) => state.privileges.privileges);
   const verification = api.authRouter.verify.useMutation();
   const getChildrenInDetail = api.dbRouter.getChildren.useQuery(id);
 
@@ -52,10 +52,10 @@ const PersonDetail = ({
   };
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
   const dispatch = useDispatch();
-
+  const router = useRouter();
   const updatePerson = (arg: string) => {
-    sessionStorage.setItem("updateID", arg);
-    window.location.href = "/records";
+    dispatch(setIdToUpdate(Number(arg)))
+    void router.push( "/records");
   };
   if (getChildrenInDetail.isSuccess) {
     getChildrenInDetail.data.sort((a, b) => a.id - b.id);

@@ -14,7 +14,6 @@ const Detail = () => {
   const id:number = useSelector((state:RootState) => state.id.id);
   const [photo, setPhoto] = useState<string>("");
   const [info, setInfo] = useState<string>("");
-  const [privileges, setPrivileges] = useState<boolean>(false);
   const { t } = useTranslation("detail");
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
   const dispatch = useDispatch();
@@ -24,7 +23,7 @@ const Detail = () => {
   };
 
   return (
-    <Layout setPrivileges={setPrivileges}>
+    <Layout>
       <div className="mainContent">
         {photo && id && (
           <div className="row-end-10 col-start-1 col-end-2 row-start-1 flex flex-col items-center justify-items-center">
@@ -34,7 +33,6 @@ const Detail = () => {
         <div className="row-end-11 row-end-10 col-start-2 col-end-3 row-start-1">
           {id && (
             <PersonDetail
-              privileges={privileges}
               setPhoto={(x: string) => setPhoto(x)}
               setInfo={(x: string) => setInfo(x)}
             />

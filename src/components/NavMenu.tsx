@@ -5,33 +5,27 @@ import { useEffect, useState } from "react";
 import styles from "../styles/NavMenu.module.css";
 import { api } from "../utils/api";
 import Image from "next/image";
-import PropTypes from "prop-types";
 import { useTranslation } from "next-i18next";
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
+import { setPrivileges } from "../utils/redux/privilegesSlice";
 
-type NavMenuProps = {
-  setPrivileges: (arg: boolean) => void;
-};
-
-const NavMenu = ({ setPrivileges = () => {} }: NavMenuProps) => {
-  const [selected, setSelected] = useState<boolean>(false);
-  const [priv, setPriv] = useState<boolean>(false);
+const NavMenu = () => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [showLang, setShowLang] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState<string>("");
+  const dispatch = useDispatch();
   const logout = () => {
     localStorage.removeItem("token");
     window.location.href = "/";
   };
-  const router = useRouter()
-  const { t,i18n } = useTranslation("navmenu");
+  const router = useRouter();
+  const { t, i18n } = useTranslation("navmenu");
   const verification = api.authRouter.verify.useMutation();
-  const privilegesCheck = api.authRouter.privilegeCheck.useMutation();
   useEffect(() => {
-    if (sessionStorage.getItem("id")) {
-      setSelected(true);
+    if (i18n.language) {
+      setSelectedImage(`/${i18n.language}.png`);
     }
-    if(i18n.language){setSelectedImage(`/${i18n.language}.png`)}
   }, []);
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -41,20 +35,15 @@ const NavMenu = ({ setPrivileges = () => {} }: NavMenuProps) => {
   }, []);
   useEffect(() => {
     if (verification.isSuccess) {
-      privilegesCheck.mutate(verification.data as string);
+      //privilegesCheck.mutate(verification.data.username);
+      dispatch(setPrivileges(verification.data.privileges));
     }
   }, [verification.data]);
-  useEffect(() => {
-    if (privilegesCheck.data?.privileges?.privileges) {
-      setPriv(privilegesCheck.data.privileges.privileges);
-      setPrivileges(privilegesCheck.data.privileges.privileges);
-    }
-  }, [privilegesCheck.data]);
 
-  const selectLanguage = async(locale: string) => {
-    const { pathname, asPath, query } = router
+  const selectLanguage = async (locale: string) => {
+    const { pathname, asPath, query } = router;
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    await router.push({ pathname, query }, asPath, { locale: locale })
+    await router.push({ pathname, query }, asPath, { locale: locale });
     setSelectedImage(`/${locale}.png`);
   };
 
@@ -67,19 +56,19 @@ const NavMenu = ({ setPrivileges = () => {} }: NavMenuProps) => {
         <Link className={styles.linkItem} href={"/list"}>
           {t("list")}
         </Link>
-         <Link className={styles.linkItem} href={"/genealogy_chart"}>
-            {t("genealogy")}
-          </Link>
-        { verification.isSuccess && (
+        <Link className={styles.linkItem} href={"/genealogy_chart"}>
+          {t("genealogy")}
+        </Link>
+        {verification.isSuccess && (
           <Link className={styles.linkItem} href={"/person_detail"}>
             {t("detail")}
           </Link>
         )}
-        {verification.isSuccess && priv && (
-          <Link className={styles.linkItem} href={"/records"}>
-            {t("records")}
-          </Link>
-        )}
+
+        <Link className={styles.linkItem} href={"/records"}>
+          {t("records")}
+        </Link>
+
         {!verification.isSuccess && (
           <Link className={styles.linkItem} href={"/login"}>
             {t("login")}
@@ -96,7 +85,7 @@ const NavMenu = ({ setPrivileges = () => {} }: NavMenuProps) => {
             onMouseEnter={() => setShowMenu(true)}
             onMouseLeave={() => setShowMenu(false)}
           >
-            <div className={styles.linkItem}>{verification.data as string}</div>
+            <div className={styles.linkItem}>{verification.data.username}</div>
             {showMenu && (
               <button
                 className={styles.linkItem}
@@ -144,9 +133,3 @@ const NavMenu = ({ setPrivileges = () => {} }: NavMenuProps) => {
 
 export default NavMenu;
 
-NavMenu.defaultProps = {
-  setPrivileges: () => {},
-};
-NavMenu.propTypes = {
-  setPrivileges: PropTypes.func,
-};
