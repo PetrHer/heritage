@@ -26,6 +26,10 @@ tailwind and css
 
 JWT
 
+Redux Toolkit
+
+next-i18next
+
 ## Deployment
 
 Project is currently deployed on https://herytage.onrender.com and intial load is slow because of free deployment, which will be sorted after finnishing project.
